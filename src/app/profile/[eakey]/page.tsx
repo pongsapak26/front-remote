@@ -2,20 +2,17 @@
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { editEakey } from "@/lib/api";
-import { notFound, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-interface PageProps {
-  params: { eakey: string };
-}
 export interface EaKey {
   trailing_fibo: string
   trailing_rang: string
   breakeven_trigger: string
   breakeven_rang: string
 }
-export default function Page({ params }: PageProps) {
-  const { eakey } = params;
+export default function Page() {
+  // const { eakey } = params;
   const [loading, setloading] = useState<boolean>(false);
 
   const [data, setdata] = useState<EaKey>({
@@ -24,9 +21,9 @@ export default function Page({ params }: PageProps) {
     breakeven_trigger: "",
     breakeven_rang: "",
   });
-  if (!eakey) {
-    notFound(); // หรือทำการจัดการกรณีที่ไม่มี eakey
-  }
+  // if (!eakey) {
+  //   notFound(); // หรือทำการจัดการกรณีที่ไม่มี eakey
+  // }
   const router = useRouter();
   return (
     <div>
