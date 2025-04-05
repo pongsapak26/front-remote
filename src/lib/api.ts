@@ -31,7 +31,7 @@ export const login = async (
     setloading(true);
     const response: LoginResponse = await axios.post(`${apiUrl}/auth/login`, {
       email,
-      password,
+      password, 
     });
     if (response.data) {
       localStorage.setItem("token", response.data.token); // เก็บ token ใน localStorage
