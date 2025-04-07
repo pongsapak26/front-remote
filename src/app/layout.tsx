@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { UserProvider } from "@/context/UserContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +32,9 @@ export default function RootLayout({
       >
         <div>
           <div className="flex flex-col w-full h-screen bg-gray-900 text-white">
-            <div className="container mx-auto mt-10">{children}</div>
+            <UserProvider>
+              <div className="container mx-auto mt-10">{children}</div>
+            </UserProvider>
           </div>
         </div>
       </body>
