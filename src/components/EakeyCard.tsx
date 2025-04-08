@@ -78,7 +78,7 @@ const EakeyCard = ({
             router.push(`/order`); // Redirect to order page
             // Handle save logic here
           }}
-          className="w-full bg-yellow-800 hover:bg-yellow-900 text-white py-2 mt-2  cursor-pointer"
+          className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 mt-2  cursor-pointer"
         >
           Extend subscription
         </button>

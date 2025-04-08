@@ -10,7 +10,12 @@ export default function Page() {
   const router = useRouter();
   const { cart } = useUserContext();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
+  const [loading, setLoading] = useState(false);
+  if (cart.price === 0) {
+    router.push("/profile");
+  }else {
+    setLoading(true);
+  }
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]; // ดึงไฟล์แรกที่ผู้ใช้เลือก
     if (file) {
@@ -18,13 +23,13 @@ export default function Page() {
       console.log("Selected file:", file.name); // แสดงชื่อไฟล์ใน console
     }
   };
-
+  
   const handleUpload = async () => {
+    setLoading(true);
     if (!selectedFile) {
       alert("Please select a file before uploading.");
       return;
     }
-
     try {
       // เรียกใช้ฟังก์ชัน imageToDiscord
       const response = await imageToDiscord(
@@ -35,10 +40,21 @@ export default function Page() {
       );
       console.log(response);
       showAlert("Success", "Upload successful!", "success");
+      router.push("/profile");
+      setLoading(false);
     } catch (error) {
       showAlert("Error", "Login failed" + error, "error");
+      setLoading(false);
     }
   };
+
+  if (!loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="loader"></div>
+      </div>
+    );
+  }
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-8 text-center">
@@ -47,8 +63,8 @@ export default function Page() {
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 gap-4">
         <div className=" p-4 flex flex-col justify-center align-middle w-fit mx-auto bg-gray-800">
           <img
-            src={`https://promptpay.io/0808246682/${cart.price}`}
-            className="w-60 h-60"
+            src={`https://promptpay.io/${process.env.NEXT_PUBLIC_PHONE_PAYMENT}/${cart.price}`}
+            className="w-60 h-60 mx-auto"
             alt=""
           />
           <h2 className="text-xl text-center font-bold my-2">{cart.product}</h2>
@@ -78,8 +94,9 @@ export default function Page() {
             onClick={handleUpload}
             className="w-full bg-yellow-800 hover:bg-yellow-900 text-white py-2 mt-2 cursor-pointer"
           >
-            Upload
+            {loading ? "Uploading..." : "Upload"}
           </button>
+    
         </div>
       </div>
 

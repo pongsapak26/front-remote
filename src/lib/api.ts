@@ -1,5 +1,6 @@
 import { ResEaKey } from "@/components/EakeyCard";
 import axios from "axios";
+import Cookies from 'js-cookie';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 interface LoginResponse {
@@ -37,6 +38,7 @@ export const login = async (
     if (response.data) {
       localStorage.setItem("token", response.data.token); // เก็บ token ใน localStorage
       localStorage.setItem("userId", response.data.user.id); // เก็บ userId ใน localStorage
+      Cookies.set('token', response.data.token, { expires: 7 });
       return true;
     }
   } catch (error) {
@@ -133,6 +135,7 @@ export const logout = async () => {
   try {
     localStorage.removeItem("token"); // Remove token from localStorage
     localStorage.removeItem("userId"); // Remove userId from localStorage
+    Cookies.remove('token'); // Remove token from cookies
     return true;
   } catch (error) {
     throw new Error("Logout failed" + (error as Error).message);
@@ -196,5 +199,22 @@ export const imageToDiscord = async (
     return response.data;
   } catch (error) {
     throw new Error("Failed to upload image" + (error as Error).message);
+  }
+};
+
+export const geTransactionId = async () => {
+  try {
+    const userId = localStorage.getItem("userId"); // ดึง userId จาก localStorage
+    const response = await axios.get(`${apiUrl}/front/getTransaction/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // ส่ง token ใน header
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data; // ส่งค่ากลับเป็นข้อมูล Eakey
+  } catch (error) {
+    throw new Error("Failed to get Eakey" + (error as Error).message);
+  } finally {
   }
 };

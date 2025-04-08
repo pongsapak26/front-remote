@@ -1,10 +1,11 @@
 "use client";
 import EakeyCard, { ResEaKey } from "@/components/EakeyCard";
+import { useUserContext } from "@/context/UserContext";
 import { createEakey, getEakey, getUserProfile, logout } from "@/lib/api";
 import { showAlert } from "@/lib/sweetAlert";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
- 
+
 const ProfilePage = () => {
   const router = useRouter();
   const [user, setuser] = useState({
@@ -15,7 +16,7 @@ const ProfilePage = () => {
   });
   const [eakey, seteakey] = useState<ResEaKey[]>([]); // Initialize eakey state
   const [loading, setLoading] = useState(false);
-
+  const { setCart } = useUserContext(); // Use context to get cart and setCart
   useEffect(() => {
     const fetchUserProfile = async () => {
       const res = await getUserProfile(); // Replace with your actual function to get user profile
@@ -33,9 +34,10 @@ const ProfilePage = () => {
     };
     fetchEakey();
     fetchUserProfile();
+    setCart({ userId: "", username: "", price: 0, product: "" });
     setLoading(true); // Set loading to true while fetching user profile
   }, []);
-  
+
   const handleLogout = async () => {
     try {
       setLoading(true);
@@ -58,11 +60,11 @@ const ProfilePage = () => {
       const data = await createEakey(); // Replace with your actual function to create eakey
       if (data.message === "Key limit reached") {
         showAlert("Error", "Key limit reached", "error");
-      }else{
-        showAlert("Success", data.message	, "success");
+      } else {
+        showAlert("Success", data.message, "success");
       }
     } catch (error) {
-      showAlert("Error", "failed" + error , "error");
+      showAlert("Error", "failed" + error, "error");
     } finally {
       setLoading(true); // Stop loading
     }
@@ -78,25 +80,38 @@ const ProfilePage = () => {
   return (
     <div>
       <div className="flex flex-col md:flex-row items-center justify-between mb-4">
-        <div>
-          <h1 className="text-2xl font-bold">Wellcom {user.username} Keylimit : {user.keylimit}</h1>
-          <button
-            onClick={() => {
-              handleCreateEakey();
-            }}
-            className="w-full bg-green-800 hover:bg-green-900 text-white py-2  cursor-pointer"
-          >
-            Add Key
-          </button>
-          <button
-            onClick={() => {
-              router.push(`/order`); // Redirect to order page
-              // Handle save logic here
-            }}
-            className="w-full bg-yellow-800 hover:bg-yellow-900 text-white py-2  cursor-pointer mt-2"
-          >
-            Buy Key
-          </button>
+        <div className="w-1/2 ">
+          <h1 className="text-2xl font-bold">
+            Wellcom {user.username} Keylimit : {user.keylimit}
+          </h1>
+          <div className="flex flex-row gap-2 mt-4">
+            <button
+              onClick={() => {
+                handleCreateEakey();
+              }}
+              className="w-full bg-green-800 hover:bg-green-900 text-white py-2 cursor-pointer"
+            >
+              Add Key
+            </button>
+            <button
+              onClick={() => {
+                router.push(`/order`); // Redirect to order page
+                // Handle save logic here
+              }}
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 cursor-pointer"
+            >
+              Buy Key
+            </button>
+            <button
+              onClick={() => {
+                router.push(`/transaction`); // Redirect to order page
+                // Handle save logic here
+              }}
+              className="w-full bg-blue-800 hover:bg-blue-900 text-white py-2 cursor-pointer"
+            >
+              Order Status
+            </button>
+          </div>
         </div>
         <div>
           <h1 className="text-2xl font-bold mb-1">
@@ -113,7 +128,7 @@ const ProfilePage = () => {
         </div>
       </div>
       <div className="bg-gray-800 p-4 shadow-lg grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {eakey.map((item:ResEaKey, index) => (
+        {eakey.map((item: ResEaKey, index) => (
           <div key={index} className="col-span-2 md:col-span-2 lg:col-span-1">
             <EakeyCard {...item} />
           </div>
