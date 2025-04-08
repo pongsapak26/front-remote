@@ -4,18 +4,21 @@ import { useUserContext } from "@/context/UserContext";
 import { imageToDiscord } from "@/lib/api";
 import { showAlert } from "@/lib/sweetAlert";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Page() {
   const router = useRouter();
   const { cart } = useUserContext();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  if (cart.price === 0) {
-    router.push("/profile");
-  }else {
-    setLoading(true);
-  }
+  // ใช้ useEffect สำหรับการตรวจสอบ cart.price
+  useEffect(() => {
+    if (cart.price === 0) {
+      router.push("/profile");
+    } else {
+      setLoading(true);
+    }
+  }, [cart.price, router]);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]; // ดึงไฟล์แรกที่ผู้ใช้เลือก
     if (file) {
@@ -38,7 +41,6 @@ export default function Page() {
         cart.username,
         cart.product
       );
-      console.log(response);
       showAlert("Success", "Upload successful!", "success");
       router.push("/profile");
       setLoading(false);
