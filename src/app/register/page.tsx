@@ -27,7 +27,7 @@ const Register = () => {
   };
 
   return (
-    <div className="w-1/4 mx-auto border-2 border-gray-700 p-4 bg-gray-800 shadow-lg">
+    <div className="w-full md:w-1/4 mx-auto border-2 border-gray-700 p-4 bg-gray-800 shadow-lg">
       <h2 className="text-2xl mb-4 text-center">Register</h2>
       <div className="mb-1">
         <Input
