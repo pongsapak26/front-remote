@@ -41,6 +41,7 @@ export default function Page() {
         cart.username,
         cart.product
       );
+      console.log(response);
       showAlert("Success", "Upload successful!", "success");
       router.push("/profile");
       setLoading(false);
