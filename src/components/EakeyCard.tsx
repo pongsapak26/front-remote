@@ -71,7 +71,7 @@ const EakeyCard = ({
         </div>
         <Button
           type="button"
-          label="Edit Eakey"
+          label="Edit EA key"
           onClick={() => handleNavigate(_id)} // Navigate to /profile/test
         />
         <button
@@ -81,7 +81,7 @@ const EakeyCard = ({
           }}
           className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 mt-2  cursor-pointer"
         >
-          Extend subscription
+          Extend Subscription
         </button>
       </div>
     </div>

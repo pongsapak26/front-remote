@@ -80,7 +80,7 @@ const ProfilePage = () => {
   return (
     <div>
       <div className="flex flex-col md:flex-row items-center justify-between mb-4">
-        <div className="w-1/2 ">
+        <div className="md:w-1/2 md:mb-0 mb-4">
           <h1 className="text-2xl font-bold">
             Wellcom {user.username} Keylimit : {user.keylimit}
           </h1>
