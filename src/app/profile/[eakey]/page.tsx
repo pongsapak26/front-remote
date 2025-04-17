@@ -64,6 +64,16 @@ export default function Page() {
       </div>
       <div className="bg-gray-800 p-4 shadow-lg grid grid-cols-1 4 gap-4 mx-auto max-w-xl">
         <div>
+          <label className="text-white">Name</label>
+          <Input
+            type="text"
+            name="eaName"
+            placeholder="Name"
+            value={data.eaName}
+            onChange={(e) => setdata({ ...data, eaName: e.target.value })}
+          />
+        </div>
+        <div>
           <label className="text-white">Account ID</label>
           <Input
             type="text"
