@@ -31,6 +31,7 @@ const EakeyCard = ({
   eaapiKey,
   _id,
   account,
+  eaName
 }: ResEaKey) => {
   const router = useRouter();
   const handleNavigate = (slug: string) => {
@@ -39,7 +40,7 @@ const EakeyCard = ({
   return (
     <div className="bg-gray-900 text-white">
       <div className="p-5">
-        <h1 className="text-2xl font-bold mb-4">Eakey Name</h1>
+        <h1 className="text-2xl font-bold mb-4">{eaName}</h1>
         <div className="flex items-center justify-between mb-2">
           <p className="text-lg">EA Key </p>
           <p>{eaapiKey}</p>
@@ -49,19 +50,19 @@ const EakeyCard = ({
           <p>{account}</p>
         </div>
         <div className="flex items-center justify-between mb-2">
-          <p className="text-lg">trailing fibo </p>
+          <p className="text-lg">Trailing Trigger : </p>
           <p>{trailingfibo}</p>
         </div>
         <div className="flex items-center justify-between mb-2">
-          <p className="text-lg">trailing rang </p>
+          <p className="text-lg">Trailing Range : </p>
           <p>{trailingrang}</p>
         </div>
         <div className="flex items-center justify-between mb-2">
-          <p className="text-lg">breakeven trigge </p>
+          <p className="text-lg">Breakeven Trigger : </p>
           <p>{breakeventrigger}</p>
         </div>
         <div className="flex items-center justify-between mb-2">
-          <p className="text-lg">breakeven rang </p>
+          <p className="text-lg">Breakeven Range : </p>
           <p>{breakevenrang}</p>
         </div>
         <div className="flex items-center justify-between mb-2">
