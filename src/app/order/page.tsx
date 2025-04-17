@@ -14,19 +14,19 @@ interface Product {
 const products: Product[] = [
   {
     name: "3 Day",
-    price: 100,
+    price: 290,
     description: "Buy 3 Day",
     duration: 3,
   },
   {
     name: "7 Day",
-    price: 200,
+    price: 590,
     description: "Buy 7 Day",
     duration: 7,
   },
   {
     name: "30 Day",
-    price: 300,
+    price: 1690,
     description: "Buy 30 Day",
     duration: 30,
   },
@@ -34,19 +34,19 @@ const products: Product[] = [
 const products2: Product[] = [
   {
     name: "1 Key",
-    price: 100,
+    price: 500,
     description: "Buy 1 Key",
     duration: 3,
   },
   {
     name: "3 Key",
-    price: 200,
+    price: 1500,
     description: "Buy 3 Key",
     duration: 7,
   },
   {
     name: "10 Key",
-    price: 300,
+    price: 4990,
     description: "Buy 10 Key",
     duration: 30,
   },
