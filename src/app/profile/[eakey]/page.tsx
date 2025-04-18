@@ -84,11 +84,11 @@ export default function Page() {
           />
         </div>
         <div>
-          <label className="text-white">Trailing fibo</label>
+          <label className="text-white">Trailing trigger</label>
           <Input
             type="text"
             name="trailing_fibo"
-            placeholder="Trailing fibo"
+            placeholder="Trailing trigger"
             value={data.trailingfibo}
             onChange={(e) => setdata({ ...data, trailingfibo: e.target.value })}
           />
