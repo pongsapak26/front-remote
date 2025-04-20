@@ -27,11 +27,11 @@ const Vanta = ({
         minWidth: 200.00,
         scale: 1.00,
         scaleMobile: 1.00,
-        color: 0xca5252,
+        color: 0x410000,
         backgroundColor: 0x0,
-        points: 20.00,
-        maxDistance: 32.00,
-        spacing: 20.00
+        points: 11.00,
+        maxDistance: 24.00,
+        spacing: 16.00
       });
     }
 

@@ -1,6 +1,8 @@
 "use client";
+import Button from "@/components/Button";
 import EakeyCard, { ResEaKey } from "@/components/EakeyCard";
 import { useUserContext } from "@/context/UserContext";
+import { aosall } from "@/lib/aos";
 import { createEakey, getEakey, getUserProfile, logout } from "@/lib/api";
 import { showAlert } from "@/lib/sweetAlert";
 import { useRouter } from "next/navigation";
@@ -84,33 +86,35 @@ const ProfilePage = () => {
           <h1 className="text-2xl font-bold">
             Wellcom {user.username} Keylimit : {user.keylimit}
           </h1>
-          <div className="flex flex-row gap-2 mt-4">
-            <button
-              onClick={() => {
-                handleCreateEakey();
-              }}
-              className="w-full bg-green-800 hover:bg-green-900 text-white py-2 cursor-pointer"
-            >
-              Add Key
-            </button>
-            <button
-              onClick={() => {
-                router.push(`/order`); // Redirect to order page
-                // Handle save logic here
-              }}
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 cursor-pointer"
-            >
-              Buy Key
-            </button>
-            <button
+          <div className="flex flex-row gap-2 my-4">
+            {user.keylimit !== "0" ? (
+              <button
+                onClick={() => {
+                  router.push(`/order`); // Redirect to order page
+                  // Handle save logic here
+                }}
+                className="w-full transition-all btn-bggreen text-white mt-4 cursor-pointer"
+              >
+                Buy Key
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  handleCreateEakey();
+                }}
+                className="w-full transition-all btn-bggreen text-white mt-4 cursor-pointer"
+              >
+                Add Key
+              </button>
+            )}
+            <Button
+              type="button"
+              label="Order Status"
               onClick={() => {
                 router.push(`/transaction`); // Redirect to order page
                 // Handle save logic here
               }}
-              className="w-full bg-blue-800 hover:bg-blue-900 text-white py-2 cursor-pointer"
-            >
-              Order Status
-            </button>
+            />
           </div>
         </div>
         <div>
@@ -121,13 +125,16 @@ const ProfilePage = () => {
             onClick={() => {
               handleLogout();
             }}
-            className="w-full bg-red-600 hover:bg-red-700 text-white py-2  cursor-pointer"
+            className="w-full transition-all btn-bgred text-white py-2 my-4 cursor-pointer"
           >
             Logout
           </button>
         </div>
       </div>
-      <div className="bg-gray-800 p-4 shadow-lg grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div
+        {...aosall}
+        className="bgbox p-4 shadow-lg grid grid-cols-2 lg:grid-cols-4 gap-4"
+      >
         {eakey.map((item: ResEaKey, index) => (
           <div key={index} className="col-span-2 md:col-span-2 lg:col-span-1">
             <EakeyCard {...item} />

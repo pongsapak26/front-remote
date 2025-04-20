@@ -92,56 +92,58 @@ export default function Page() {
       </div>
     );
   }
-  
+
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-8 text-center">
-      Extend Subscription
-      </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {products.map((product, index) => (
-          <div key={index} className="bg-gray-800 shadow-lg p-6 text-center">
-            <h2 className="text-2xl font-semibold mb-4">{product.name}</h2>
-            <p className="mb-4">{product.description}</p>
-            <div className="text-xl font-bold mb-4">{product.price} USD</div>
-            <div className="mb-4">
-              <button
-                onClick={() => handleBuy(product)}
-                className="w-full bg-green-800 text-white py-2 cursor-pointer hover:bg-green-900"
-              >
-                Buy {product.price} THB
-              </button>
+    <div className="h-full flex align-middle justify-center">
+      <div className="container m-auto p-4">
+        <h1 className="text-3xl font-bold mb-8 text-center">
+          Extend Subscription
+        </h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {products.map((product, index) => (
+            <div key={index} className="bg-gray-800 shadow-lg p-6 text-center">
+              <h2 className="text-2xl font-semibold mb-4">{product.name}</h2>
+              <p className="mb-4">{product.description}</p>
+              <div className="text-xl font-bold mb-4">{product.price} USD</div>
+              <div className="mb-4">
+                <button
+                  onClick={() => handleBuy(product)}
+                  className="w-full transition-all btn-bggreen text-white py-2 cursor-pointer"
+                >
+                  Buy {product.price} THB
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-      <h1 className="text-3xl font-bold my-8 text-center">Buy Key EA</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {products2.map((product, index) => (
-          <div key={index} className="bg-gray-800 shadow-lg p-6 text-center">
-            <h2 className="text-2xl font-semibold mb-4">{product.name}</h2>
-            <p className="mb-4">{product.description}</p>
-            <div className="text-xl font-bold mb-4">{product.price} USD</div>
-            <div className="mb-4">
-              <button
-                onClick={() => handleBuy(product)}
-                className="w-full bg-green-800 text-white py-2 cursor-pointer hover:bg-green-900"
-              >
-                Buy {product.price} THB
-              </button>
+          ))}
+        </div>
+        <h1 className="text-3xl font-bold my-8 text-center">Buy Key EA</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {products2.map((product, index) => (
+            <div key={index} className="bg-gray-800 shadow-lg p-6 text-center">
+              <h2 className="text-2xl font-semibold mb-4">{product.name}</h2>
+              <p className="mb-4">{product.description}</p>
+              <div className="text-xl font-bold mb-4">{product.price} USD</div>
+              <div className="mb-4">
+                <button
+                  onClick={() => handleBuy(product)}
+                  className="w-full transition-all btn-bggreen text-white py-2 cursor-pointer "
+                >
+                  Buy {product.price} THB
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        <button
+          onClick={() => {
+            router.push(`/profile`);
+            // Handle save logic here
+          }}
+          className="w-1/4 transition-all btn-bgred text-white py-2 mt-4 cursor-pointer mx-auto block text-center"
+        >
+          Back
+        </button>
       </div>
-      <button
-        onClick={() => {
-          router.push(`/profile`);
-          // Handle save logic here
-        }}
-        className="w-1/4 bg-red-600 hover:bg-red-700 text-white py-2 mt-4 cursor-pointer mx-auto block text-center"
-      >
-        Back
-      </button>
     </div>
   );
 }

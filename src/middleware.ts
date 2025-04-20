@@ -7,6 +7,7 @@ export function middleware(request: NextRequest) {
 
   // ยกเว้นเส้นทางที่ไม่ต้องตรวจ token
   const publicPaths = [
+    '/',
     '/login',
     '/register'
   ]

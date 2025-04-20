@@ -42,6 +42,8 @@ export const login = async (
       return true;
     }
   } catch (error) {
+    console.log(error);
+    
     throw new Error("Login failed" + (error as Error).message);
   } finally {
     setloading(false); // หยุดโหลด

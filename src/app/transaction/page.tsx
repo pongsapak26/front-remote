@@ -1,5 +1,6 @@
 "use client";
 
+import { aosall } from "@/lib/aos";
 import { geTransactionId } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -28,13 +29,15 @@ export default function Page() {
 		fetchData();
 	}, []);
   return (
-    <div className="container mx-auto p-4">
+	<div className="h-full flex align-middle justify-center">
+
+    <div  {...aosall} className="container m-auto p-4">
       <h1 className="text-3xl font-bold mb-8 text-center">
 	  Extend Subscription
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 bg-gray-700">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 bg-gray-800">
 		{data?.map((item: Transaction) => (
-		  <div key={item._id} className="bg-gray-900 p-4 m-4">
+		  <div key={item._id}  className={`bg-gray-900 text-white ${item.status === "pending" ?"border-orange-200":"border-green-200"} border-2 m-5 p-5`}>
 			<h2 className="text-xl font-semibold mb-2">{item.product}</h2>
 			<p className="">Order ID: {item._id}</p>
 			<p className="">Status: {item.status}</p>
@@ -47,10 +50,11 @@ export default function Page() {
           router.push(`/profile`);
           // Handle save logic here
         }}
-        className="w-1/4 bg-red-600 hover:bg-red-700 text-white py-2 mt-4 cursor-pointer mx-auto block text-center"
+        className="w-1/4 btn-bgred text-white py-2 mt-8 cursor-pointer mx-auto block text-center"
       >
         Back
       </button>
     </div>
+	</div>
   );
 }

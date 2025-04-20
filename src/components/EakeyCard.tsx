@@ -37,8 +37,9 @@ const EakeyCard = ({
   const handleNavigate = (slug: string) => {
     router.push(`/profile/${slug}`); // นำทางไปยังหน้า /profile/test
   };
+  const afterExp = calculateDaysRemaining(exp)
   return (
-    <div className="bg-gray-900 text-white">
+    <div className={`bg-gray-900 text-white ${afterExp === "Expired" ?"border-red-200":"border-green-200"} border-2`}>
       <div className="p-5">
         <h1 className="text-2xl font-bold mb-4">{eaName}</h1>
         <div className="flex items-center justify-between mb-2">
@@ -67,7 +68,7 @@ const EakeyCard = ({
         </div>
         <div className="flex items-center justify-between mb-2">
           <p className="text-lg">EXP </p>
-          <p>{calculateDaysRemaining(exp)}</p> {/* ใช้ฟังก์ชันที่แยกออกมา */}
+          <p>{afterExp}</p> {/* ใช้ฟังก์ชันที่แยกออกมา */}
         </div>
         <Button
           type="button"
@@ -79,7 +80,7 @@ const EakeyCard = ({
             router.push(`/order`); // Redirect to order page
             // Handle save logic here
           }}
-          className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 mt-2  cursor-pointer"
+          className="w-full transition-all btn-bggreen text-white py-2 mt-2  cursor-pointer"
         >
           Extend Subscription
         </button>

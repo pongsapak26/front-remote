@@ -7,6 +7,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { aosall } from "@/lib/aos";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -27,46 +28,53 @@ const Register = () => {
   };
 
   return (
-    <div className="w-full md:w-1/4 mx-auto border-2 border-gray-700 p-4 bg-gray-800 shadow-lg">
-      <h2 className="text-2xl mb-4 text-center">Register</h2>
-      <div className="mb-1">
-        <Input
-          type="text"
-          name="username"
-          placeholder="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+    <div className="h-full flex align-middle justify-center">
+      <div {...aosall} className="w-full md:w-1/4 m-auto border-2 bgbox p-4  shadow-lg">
+        <h2 className="text-2xl mb-4 text-center">Register</h2>
+        <div className="mb-1">
+          <Input
+            type="text"
+            name="username"
+            placeholder="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div className="mb-1">
+          <Input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="mb-1">
+          <Input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <Button
+          type="button"
+          loading={loading}
+          label="Register"
+          onClick={handleRegister}
         />
+        <p className="text-center text-sm text-gray-400 mt-4">
+          Already have an account?
+          <Link
+            href="/login"
+            id="showLogin"
+            className="text-white hover:underline pl-1"
+          >
+            Login
+          </Link>
+        </p>
       </div>
-      <div className="mb-1">
-        <Input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
-      <div className="mb-1">
-        <Input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <Button type="button" loading={loading} label="Register" onClick={handleRegister} />
-      <p className="text-center text-sm text-gray-400 mt-4">
-        Already have an account?
-        <Link
-          href="/login"
-          id="showLogin"
-          className="text-white hover:underline pl-1"
-        >
-          Login
-        </Link>
-      </p>
     </div>
   );
 };
