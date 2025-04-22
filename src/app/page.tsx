@@ -16,11 +16,17 @@ export default function Home() {
         <div className="container mx-auto">
           <div className="mt-20 relative">
             <img
+              data-aos="fade-up-left"
+              data-aos-duration="1000"
               src="/images/home1.webp"
               className="xl:rounded-md xl:w-1/2"
               alt="Trader"
             />
-            <div className="xl:absolute -top-20 right-10 xl:w-1/2">
+            <div
+              data-aos="fade-down-right"
+              data-aos-duration="500"
+              className="xl:absolute -top-20 right-10 xl:w-1/2"
+            >
               <div className="bg-gray-50 hover:bg-gray-200 transition-all cursor-pointer text-black xl:rounded-md text-lg p-8">
                 <div className="text-3xl mb-5">
                   ระบบจัดการคีย์ EA สำหรับเทรดเดอร์มืออาชีพ
@@ -32,9 +38,12 @@ export default function Home() {
                   และป้องกันการใช้งานโดยไม่ได้รับอนุญาตได้อย่างมีประสิทธิภาพ
                 </div>
                 <div className="mb-5">
-                👤 เหมาะสำหรับใคร?<br/>
-                  ผู้พัฒนา EA ที่ต้องการแจกจ่ายหรือขาย EA<br/>
-                  พร้อมระบบควบคุม เทรดเดอร์ที่ต้องการความปลอดภัยในการใช้งาน EA<br/>
+                  👤 เหมาะสำหรับใคร?
+                  <br />
+                  ผู้พัฒนา EA ที่ต้องการแจกจ่ายหรือขาย EA
+                  <br />
+                  พร้อมระบบควบคุม เทรดเดอร์ที่ต้องการความปลอดภัยในการใช้งาน EA
+                  <br />
                   เจ้าของระบบเทรดที่ต้องการดูแลลูกค้าและควบคุมการเข้าถึง
                 </div>
                 <a
@@ -50,13 +59,19 @@ export default function Home() {
       </div>
       <div className="py-20 from-blue-400 to-blue-800 bg-gradient-to-t">
         <div className="container mx-auto">
-          <div className="my-10  relative">
+          <div className="my-10 relative">
             <img
+              data-aos="fade-up-left"
+              data-aos-duration="1000"
               src="/images/home2.jpg"
               className="xl:rounded-md xl:w-1/2  ml-auto"
               alt="Trader"
             />
-            <div className="xl:absolute top-20 left-20 xl:w-1/2">
+            <div
+              data-aos="fade-down-right"
+              data-aos-duration="500"
+              className="xl:absolute top-20 left-20 xl:w-1/2"
+            >
               <div className="bg-gray-800 hover:bg-gray-950 transition-all cursor-pointer text-white xl:rounded-md text-lg p-8">
                 <div className="text-3xl mb-5">🛠 คุณสมบัติเด่น</div>
                 <div className="mb-5">
