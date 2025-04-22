@@ -91,7 +91,7 @@ export default function Page() {
             />
           </div>
           <div>
-            <label className="text-white">Trailing rang</label>
+            <label className="text-white">Trailing range</label>
             <Input
               type="text"
               name="trailing_rang"
@@ -115,7 +115,7 @@ export default function Page() {
             />
           </div>
           <div>
-            <label className="text-white">Breakeven rang</label>
+            <label className="text-white">Breakeven range</label>
             <Input
               type="text"
               name="breakeven_rang"
