@@ -39,7 +39,7 @@ const EakeyCard = ({
   };
   const afterExp = calculateDaysRemaining(exp)
   return (
-    <div className={`bg-gray-900 text-white ${afterExp === "Expired" ?"border-red-200":"border-green-200"} border-2`}>
+    <div className={`bgallbox ${afterExp === "Expired" ?"border-red-200":"border-green-200"} border-2`}>
       <div className="p-5">
         <h1 className="text-2xl font-bold mb-4">{eaName}</h1>
         <div className="flex items-center justify-between mb-2">

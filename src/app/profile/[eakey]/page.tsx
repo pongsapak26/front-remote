@@ -59,7 +59,7 @@ export default function Page() {
       <div className="h-full flex align-middle justify-center">
         <div  {...aosall} className="bgbox p-4 shadow-lg grid grid-cols-1 4 gap-4 m-auto max-w-xl">
           <div>
-            <label className="text-white">Name</label>
+            <label className="">Name</label>
             <Input
               type="text"
               name="eaName"
@@ -69,7 +69,7 @@ export default function Page() {
             />
           </div>
           <div>
-            <label className="text-white">Account ID</label>
+            <label className="">Account ID</label>
             <Input
               type="text"
               name="account"
@@ -79,7 +79,7 @@ export default function Page() {
             />
           </div>
           <div>
-            <label className="text-white">Trailing trigger</label>
+            <label className="">Trailing trigger</label>
             <Input
               type="text"
               name="trailing_fibo"
@@ -91,7 +91,7 @@ export default function Page() {
             />
           </div>
           <div>
-            <label className="text-white">Trailing rang</label>
+            <label className="">Trailing rang</label>
             <Input
               type="text"
               name="trailing_rang"
@@ -103,7 +103,7 @@ export default function Page() {
             />
           </div>
           <div>
-            <label className="text-white">Breakeven trigger</label>
+            <label className="">Breakeven trigger</label>
             <Input
               type="text"
               name="breakeven_trigger"
@@ -115,7 +115,7 @@ export default function Page() {
             />
           </div>
           <div>
-            <label className="text-white">Breakeven rang</label>
+            <label className="">Breakeven rang</label>
             <Input
               type="text"
               name="breakeven_rang"
@@ -140,7 +140,7 @@ export default function Page() {
                 router.push(`/profile/`);
                 // Handle save logic here
               }}
-              className="w-full transition-all hover:font-bold btn-bgred text-white py-2 mt-4 cursor-pointer"
+              className="w-full transition-all hover:font-bold btn-bgred  py-2 mt-4 cursor-pointer"
             >
               Back
             </button>

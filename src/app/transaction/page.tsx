@@ -35,10 +35,10 @@ export default function Page() {
       <h1 className="text-3xl font-bold mb-8 text-center">
 	  Extend Subscription
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 bg-gray-800">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 bgallbox">
 		{data?.map((item: Transaction) => (
-		  <div key={item._id}  className={`bg-gray-900 text-white ${item.status === "pending" ?"border-orange-200":"border-green-200"} border-2 m-5 p-5`}>
-			<h2 className="text-xl font-semibold mb-2">{item.product}</h2>
+		  <div key={item._id}  className={`bgallbox ${item.status === "pending" ?"border-orange-200":"border-green-200"} border-2 m-5 p-5`}>
+			<h2 className="text-xl font-semibold mb-2">Package: {item.product}</h2>
 			<p className="">Order ID: {item._id}</p>
 			<p className="">Status: {item.status}</p>
 			<p className="">Product: {item.product}</p>

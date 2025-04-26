@@ -8,18 +8,22 @@ import { login } from "@/lib/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { aosall } from "@/lib/aos";
+import { useUserContext } from "@/context/UserContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { setCart } = useUserContext();
 
   const handleLogin = async () => {
     try {
-      const status = await login(email, password, setLoading);
-      console.log(status);
-      if (status) {
+      const data = await login(email, password, setLoading);
+
+      console.log(data?.res.user.username);
+      if (data?.status) {
+        setCart({ userId: data.res.user.id, username: data.res.user.username, price: 0, product: "" });
         showAlert("Success", "Login successful!", "success");
         router.push("/profile"); // Redirect to profile page after successful login
       }
@@ -59,12 +63,12 @@ const Login = () => {
             loading={loading}
             onClick={handleLogin}
           />
-          <p className="text-center text-sm text-gray-400 mt-4">
+          <p className="text-center text-sm dark:text-gray-100 text-gray-900 mt-4">
             No account ?
             <Link
               href="/register"
               id="showRegister"
-              className="text-white hover:underline pl-1"
+              className="dark:text-gray-400 text-gray-900 hover:underline pl-1"
             >
               Register
             </Link>

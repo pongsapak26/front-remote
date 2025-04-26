@@ -29,13 +29,13 @@ const Register = () => {
 
   return (
     <div className="h-full flex align-middle justify-center">
-      <div {...aosall} className="w-full md:w-1/4 m-auto border-2 bgbox p-4  shadow-lg">
+      <div {...aosall} className="w-full md:w-1/4 m-auto border-2 bgbox p-4 shadow-lg">
         <h2 className="text-2xl mb-4 text-center">Register</h2>
         <div className="mb-1">
           <Input
             type="text"
             name="username"
-            placeholder="username"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -44,7 +44,7 @@ const Register = () => {
           <Input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder="E-mail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -69,7 +69,7 @@ const Register = () => {
           <Link
             href="/login"
             id="showLogin"
-            className="text-white hover:underline pl-1"
+            className="text-gray-900 dark:text-gray-100 hover:underline pl-1"
           >
             Login
           </Link>

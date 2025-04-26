@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({ type, onClick, label, loading }) => {
     <button
       type={type}
       onClick={onClick}
-      className="w-full transition-all bg-gray-600 hover:bg-gray-700 text-white p-2 mt-4 cursor-pointer"
+      className="w-full transition-all rounded-md bg-gray-600 hover:bg-gray-700 text-white p-2 mt-4 cursor-pointer"
     >
       {label}
     </button>

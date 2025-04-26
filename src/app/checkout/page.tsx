@@ -69,7 +69,7 @@ export default function Page() {
           {...aosall}
           className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 gap-4"
         >
-          <div className=" p-4 flex flex-col justify-center align-middle w-fit mx-auto bg-gray-800">
+          <div className=" p-4 flex flex-col justify-center align-middle w-fit mx-auto bgallbox">
             <img
               src={`https://promptpay.io/${process.env.NEXT_PUBLIC_PHONE_PAYMENT}/${cart.price}`}
               className="w-60 h-60 mx-auto"
@@ -84,7 +84,7 @@ export default function Page() {
             <div className="flex flex-col items-center">
               <label
                 htmlFor="file-upload"
-                className="cursor-pointer transition-all bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 text-center"
+                className="cursor-pointer transition-all bg-gray-600 hover:bg-gray-700 py-2 px-4 text-center"
               >
                 Choose File
               </label>

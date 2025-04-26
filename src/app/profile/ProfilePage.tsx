@@ -3,7 +3,7 @@ import Button from "@/components/Button";
 import EakeyCard, { ResEaKey } from "@/components/EakeyCard";
 import { useUserContext } from "@/context/UserContext";
 import { aosall } from "@/lib/aos";
-import { createEakey, getEakey, getUserProfile, logout } from "@/lib/api";
+import { createEakey, getEakey, getUserProfile } from "@/lib/api";
 import { showAlert } from "@/lib/sweetAlert";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -18,7 +18,7 @@ const ProfilePage = () => {
   });
   const [eakey, seteakey] = useState<ResEaKey[]>([]); // Initialize eakey state
   const [loading, setLoading] = useState(false);
-  const { setCart } = useUserContext(); // Use context to get cart and setCart
+  const { cart, setCart } = useUserContext(); // Use context to get cart and setCart
   useEffect(() => {
     const fetchUserProfile = async () => {
       const res = await getUserProfile(); // Replace with your actual function to get user profile
@@ -36,25 +36,9 @@ const ProfilePage = () => {
     };
     fetchEakey();
     fetchUserProfile();
-    setCart({ userId: "", username: "", price: 0, product: "" });
+    setCart({ ...cart, price: 0, product: "" });
     setLoading(true); // Set loading to true while fetching user profile
   }, []);
-
-  const handleLogout = async () => {
-    try {
-      setLoading(true);
-      const data = await logout();
-      if (data) {
-        router.push("/login"); // Redirect to login page after successful logout
-      }
-      showAlert("Success", "Registration successful!", "success");
-      // Do something with the data (e.g., redirect or show success message)
-    } catch (error) {
-      showAlert("Error", "Registration failed" + error, "error");
-    } finally {
-      setLoading(false); // Stop loading
-    }
-  };
 
   const handleCreateEakey = async () => {
     try {
@@ -121,14 +105,6 @@ const ProfilePage = () => {
           <h1 className="text-2xl font-bold mb-1">
             EXP {new Date().toLocaleString()}
           </h1>
-          <button
-            onClick={() => {
-              handleLogout();
-            }}
-            className="w-full transition-all btn-bgred text-white py-2 my-4 cursor-pointer"
-          >
-            Logout
-          </button>
         </div>
       </div>
       <div
