@@ -5,13 +5,21 @@ import { logout } from "@/lib/api";
 import { showAlert } from "@/lib/sweetAlert";
 import { User } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function UserMenu() {
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const { cart } = useUserContext();
-  const username = localStorage.getItem("username") || "";
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    // ตรวจสอบว่าอยู่ใน Client-side ก่อนเข้าถึง localStorage
+    if (typeof window !== "undefined") {
+      const storedUsername = localStorage.getItem("username") || "";
+      setUsername(storedUsername);
+    }
+  }, []);
 
   const handleLogout = async () => {
     try {
