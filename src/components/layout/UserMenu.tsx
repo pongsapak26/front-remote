@@ -5,7 +5,6 @@ import { logout } from "@/lib/api";
 import { showAlert } from "@/lib/sweetAlert";
 import { User } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function UserMenu() {
