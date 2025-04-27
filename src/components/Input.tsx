@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface InputProps {
   type: string;
@@ -9,16 +9,30 @@ interface InputProps {
   addclass?: string;
 }
 
-const Input: React.FC<InputProps> = ({ type, name, placeholder, value, onChange, addclass }) => {
+const Input: React.FC<InputProps> = ({
+  type,
+  name,
+  placeholder,
+  value,
+  onChange,
+  addclass,
+}) => {
   return (
-    <input
-      type={type}
-      name={name}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      className={`w-full px-4 py-2 text-gray-900 bg-gray-100 dark:bg-gray-900 dark:text-gray-100 border-2 rounded-md border-gray-900  ${addclass}`}
-    />
+    <>
+      <label
+        htmlFor={name}
+        className="text-sm text-gray-900 dark:text-gray-100"
+      >
+        {placeholder}
+      </label>
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        className={`w-full px-4 py-2 text-gray-900 bg-gray-200 dark:bg-gray-800 dark:text-gray-100  rounded-md  ${addclass}`}
+      />
+    </>
   );
 };
 

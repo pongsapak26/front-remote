@@ -58,7 +58,7 @@ export default function RootLayout({
         <UserProvider>
           <Aos>
             <Navbar>
-              <div className="flex flex-col w-full h-screen text-gray-900 dark:text-gray-100 bg-white dark:bg-black">
+              <div className="flex flex-col w-full pt-30 text-slate-900 dark:text-slate-100 bg-white dark:bg-black">
                 <div>{children}</div>
               </div>
             </Navbar>

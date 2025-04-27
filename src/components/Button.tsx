@@ -13,7 +13,7 @@ const Button: React.FC<ButtonProps> = ({ type, onClick, label, loading }) => {
       <button
         type={type}
         disabled
-        className="w-full bg-gray-600 text-white py-2 mt-4 cursor-not-allowed"
+        className="w-full bg-slate-900 text-white py-2 mt-4 cursor-not-allowed"
       >
         Loading...
       </button>
@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({ type, onClick, label, loading }) => {
     <button
       type={type}
       onClick={onClick}
-      className="w-full transition-all rounded-md bg-gray-600 hover:bg-gray-700 text-white p-2 mt-4 cursor-pointer"
+      className="w-full transition-all rounded-md bg-slate-900 hover:bg-slate-950 text-white p-2 mt-4 cursor-pointer"
     >
       {label}
     </button>

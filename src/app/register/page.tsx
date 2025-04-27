@@ -8,10 +8,12 @@ import Button from "../../components/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { aosall } from "@/lib/aos";
+import { Eye, EyeOff } from "lucide-react";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // จัดการสถานะการแสดงผลรหัสผ่าน
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -28,9 +30,19 @@ const Register = () => {
   };
 
   return (
-    <div className="h-full flex align-middle justify-center">
-      <div {...aosall} className="w-full md:w-1/4 m-auto border-2 bgbox p-4 shadow-lg">
-        <h2 className="text-2xl mb-4 text-center">Register</h2>
+    <div className="flex align-middle justify-center pt-32">
+      <div
+        {...aosall}
+        className="lg:w-1/4 md:w-1/3 sm:w-1/2 w-3/4 m-auto bgbox p-4"
+      >
+        <div className="flex justify-between max-w-48 mx-auto">
+          <Link href="/login" id="showLogin">
+            <h2 className="text-2xl mb-4 text-center text-slate-400">Login</h2>
+          </Link>
+          <Link href="/register" id="showLogin">
+            <h2 className="text-2xl mb-4 text-center font-bold underline text-slate-900">Register</h2>
+          </Link>
+        </div>
         <div className="mb-1">
           <Input
             type="text"
@@ -49,15 +61,26 @@ const Register = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="mb-1">
-          <Input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+        <div className="mb-1 relative">
+            <Input
+              type={showPassword ? "text" : "password"} // เปลี่ยน type ระหว่าง text และ password
+              name="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)} // สลับสถานะ showPassword
+              className="absolute right-3 bottom-0 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            >
+              {showPassword ? (
+                <EyeOff className="w-5 h-5" />
+              ) : (
+                <Eye className="w-5 h-5" />
+              )}
+            </button>
+          </div>
         <Button
           type="button"
           loading={loading}
@@ -65,14 +88,13 @@ const Register = () => {
           onClick={handleRegister}
         />
         <p className="text-center text-sm text-gray-400 mt-4">
-          Already have an account?
-          <Link
+          {/* <Link
             href="/login"
             id="showLogin"
             className="text-gray-900 dark:text-gray-100 hover:underline pl-1"
           >
             Login
-          </Link>
+          </Link> */}
         </p>
       </div>
     </div>

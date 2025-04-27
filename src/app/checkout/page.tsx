@@ -60,7 +60,7 @@ export default function Page() {
     );
   }
   return (
-    <div className="h-full flex align-middle justify-center">
+    <div className="flex align-middle justify-center pt-30">
       <div className="container m-auto p-4">
         <h1 className="text-3xl font-bold mb-8 text-center">
           Extend Subscription

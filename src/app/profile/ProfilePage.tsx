@@ -1,10 +1,8 @@
 "use client";
-import Button from "@/components/Button";
 import EakeyCard, { ResEaKey } from "@/components/EakeyCard";
 import { useUserContext } from "@/context/UserContext";
 import { aosall } from "@/lib/aos";
-import { createEakey, getEakey, getUserProfile } from "@/lib/api";
-import { showAlert } from "@/lib/sweetAlert";
+import {  getEakey, getUserProfile } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -16,6 +14,8 @@ const ProfilePage = () => {
     keylimit: "",
     _id: "",
   });
+  console.log(user);
+  
   const [eakey, seteakey] = useState<ResEaKey[]>([]); // Initialize eakey state
   const [loading, setLoading] = useState(false);
   const { cart, setCart } = useUserContext(); // Use context to get cart and setCart
@@ -40,22 +40,6 @@ const ProfilePage = () => {
     setLoading(true); // Set loading to true while fetching user profile
   }, []);
 
-  const handleCreateEakey = async () => {
-    try {
-      setLoading(false);
-      const data = await createEakey(); // Replace with your actual function to create eakey
-      if (data.message === "Key limit reached") {
-        showAlert("Error", "Key limit reached", "error");
-      } else {
-        showAlert("Success", data.message, "success");
-      }
-    } catch (error) {
-      showAlert("Error", "failed" + error, "error");
-    } finally {
-      setLoading(true); // Stop loading
-    }
-  };
-
   if (!loading) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
@@ -66,7 +50,7 @@ const ProfilePage = () => {
   return (
     <div>
       <div className="flex flex-col md:flex-row items-center justify-between mb-4">
-        <div className="md:w-1/2 md:mb-0 mb-4">
+        {/* <div className="md:w-1/2 md:mb-0 mb-4">
           <h1 className="text-2xl font-bold">
             Wellcom {user.username} Keylimit : {user.keylimit}
           </h1>
@@ -100,12 +84,12 @@ const ProfilePage = () => {
               }}
             />
           </div>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <h1 className="text-2xl font-bold mb-1">
             EXP {new Date().toLocaleString()}
           </h1>
-        </div>
+        </div> */}
       </div>
       <div
         {...aosall}
@@ -117,6 +101,7 @@ const ProfilePage = () => {
           </div>
         ))}
       </div>
+      
     </div>
   );
 };

@@ -41,21 +41,24 @@ const Navbar = ({
       >
         <div className="container mx-auto flex justify-between items-center">
           <Menu menuItems={menuItems} />
-          <Link href="/" className="cursor-pointer text-lg font-semibold">AFK</Link>
-          <div
-            className="hidden w-full md:block md:w-auto"
-            id="navbar-dropdown"
-          >
-            <ul className="flex space-x-4 items-center">
-              {menuItems.map((item) => (
-                <li key={item.path}>
-                  <Link href={item.path} className="hover:underline">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+          <div className="flex items-center space-x-4">
+            <Link href="/" className="cursor-pointer text-3xl font-semibold ml-7 md:ml-0">
+              AFK
+            </Link>
+            <div
+              className="hidden w-full md:block md:w-auto"
+              id="navbar-dropdown"
+            >
+              <ul className="flex space-x-4 items-center">
+                {menuItems.map((item) => (
+                  <li key={item.path}>
+                    <Link href={item.path} className="hover:underline">
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
 
-              {/* <li className="">
+                {/* <li className="">
             <div className="switch  w-10">
               <input
                 type="checkbox"
@@ -70,14 +73,14 @@ const Navbar = ({
               </label>
             </div>
           </li> */}
-            </ul>
+              </ul>
+            </div>
           </div>
+
           <UserMenu />
         </div>
       </nav>
-      <div className="flex flex-col w-full h-screen text-gray-900 dark:text-gray-100 bg-white dark:bg-black">
-        <div>{children}</div>
-      </div>
+      <div>{children}</div>
     </>
   );
 };

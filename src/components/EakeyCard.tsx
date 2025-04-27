@@ -1,6 +1,14 @@
-import React from "react";
-import Button from "./Button";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  CalendarCheck,
+  Check,
+  ChevronDown,
+  ChevronUp,
+  Copy,
+  EllipsisVertical,
+} from "lucide-react";
+import TopRightAlert from "./TopRightAlert";
 
 export type ResEaKey = {
   trailingfibo: string;
@@ -31,60 +39,123 @@ const EakeyCard = ({
   eaapiKey,
   _id,
   account,
-  eaName
+  eaName,
 }: ResEaKey) => {
   const router = useRouter();
+  const [detail, setdetail] = useState(false);
+  const [showalert, setshowalert] = useState(false);
+  
   const handleNavigate = (slug: string) => {
     router.push(`/profile/${slug}`); // นำทางไปยังหน้า /profile/test
   };
-  const afterExp = calculateDaysRemaining(exp)
+
+  // ฟังก์ชันสำหรับคัดลอกข้อมูลไปยังคลิปบอร์ด
+  const handleCopyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        setshowalert(true);
+        setTimeout(() => {
+          setshowalert(false);
+        }, 2000);
+      },
+      (err) => {
+        console.error("Failed to copy: ", err);
+      }
+    );
+  };
+
+  const afterExp = calculateDaysRemaining(exp);
   return (
-    <div className={`bgallbox ${afterExp === "Expired" ?"border-red-200":"border-green-200"} border-2`}>
+    <div
+      className={`bgallbox ${
+        afterExp === "Expired" ? "border-red-200" : "border-green-200"
+      } border-2`}
+    >
       <div className="p-5">
-        <h1 className="text-2xl font-bold mb-4">{eaName}</h1>
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-lg">EA Key </p>
-          <p>{eaapiKey}</p>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-2xl font-bold">{eaName}</h1>
+          <div>
+            <div
+              className={`${
+                detail ? "bg-slate-200" : "bg-slate-100"
+              } w-8 h-8 rounded-full flex flex-col shadow-sm hover:shadow-lg justify-center items-center cursor-pointer transition-colors hover:bg-slate-200`}
+              onClick={() => setdetail(!detail)}
+            >
+              {detail ? (
+                <ChevronUp className="w-6 h-6" />
+              ) : (
+                <ChevronDown className="w-6 h-6" />
+              )}
+            </div>
+          </div>
         </div>
         <div className="flex items-center justify-between mb-2">
-          <p className="text-lg">Account </p>
-          <p>{account}</p>
-        </div>
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-lg">Trailing Trigger : </p>
-          <p>{trailingfibo}</p>
-        </div>
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-lg">Trailing Range : </p>
-          <p>{trailingrang}</p>
-        </div>
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-lg">Breakeven Trigger : </p>
-          <p>{breakeventrigger}</p>
-        </div>
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-lg">Breakeven Range : </p>
-          <p>{breakevenrang}</p>
-        </div>
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-lg">EXP </p>
+          <p className="text-lg text-slate-400">Expiry Date </p>
           <p>{afterExp}</p> {/* ใช้ฟังก์ชันที่แยกออกมา */}
         </div>
-        <Button
-          type="button"
-          label="Edit EA key"
-          onClick={() => handleNavigate(_id)} // Navigate to /profile/test
-        />
-        <button
-          onClick={() => {
-            router.push(`/order`); // Redirect to order page
-            // Handle save logic here
-          }}
-          className="w-full transition-all btn-bggreen text-white py-2 mt-2  cursor-pointer"
-        >
-          Extend Subscription
-        </button>
+        <div className={`${detail ? "block" : "hidden"} transition-all mb-2`}>
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-lg text-slate-400">EA Key </p>
+            <div className="flex items-center gap-2">
+              <p>{eaapiKey.slice(0, 4)}****</p>
+              <div>
+                <div
+                  className="w-7 h-7 p-2 shadow-lg rounded-full flex flex-col justify-center items-center cursor-pointer transition-colors hover:bg-slate-200"
+                  onClick={() => handleCopyToClipboard(eaapiKey)}
+                >
+                  <Copy className="w-5 h-5" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-lg text-slate-400">Account </p>
+            <p>{account}</p>
+          </div>
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-lg text-slate-400">Trailing Trigger : </p>
+            <p>{trailingfibo}</p>
+          </div>
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-lg text-slate-400">Trailing Range : </p>
+            <p>{trailingrang}</p>
+          </div>
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-lg text-slate-400">Breakeven Trigger : </p>
+            <p>{breakeventrigger}</p>
+          </div>
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-lg text-slate-400">Breakeven Range : </p>
+            <p>{breakevenrang}</p>
+          </div>
+        </div>
+        <div className="flex items-center justify-between mt-5 ">
+          <div className="flex gap-2 w-full justify-around">
+            <div>
+              <div
+                className="w-9 h-9 p-2 shadow-lg rounded-full flex flex-col justify-center items-center cursor-pointer transition-colors hover:bg-slate-200"
+                onClick={() => {
+                  router.push(`/order`); // Redirect to order page
+                  // Handle save logic here
+                }}
+              >
+                <CalendarCheck className="w-7 h-7" />
+              </div>
+              <h3 className="mt-3">Sub</h3>
+            </div>
+            <div>
+              <div
+                className="w-9 h-9 p-2 shadow-lg rounded-full flex flex-col justify-center items-center cursor-pointer transition-colors hover:bg-slate-200"
+                onClick={() => handleNavigate(_id)}
+              >
+                <EllipsisVertical className="w-7 h-7" />
+              </div>
+              <h3 className="mt-3">Edit</h3>
+            </div>
+          </div>
+        </div>
       </div>
+      {showalert && <TopRightAlert message="Copy EA Key" icon={<Check />} />}
     </div>
   );
 };
