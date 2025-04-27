@@ -68,7 +68,7 @@ const EakeyCard = ({
   return (
     <div
       className={`bgallbox ${
-        afterExp === "Expired" ? "border-red-200" : "border-green-200"
+        afterExp === "Expired" ? "border-slate-400" : "border-slate-400"
       } border-2`}
     >
       <div className="p-5">
@@ -93,7 +93,7 @@ const EakeyCard = ({
           <p className="text-lg text-slate-400">Expiry Date </p>
           <p>{afterExp}</p> {/* ใช้ฟังก์ชันที่แยกออกมา */}
         </div>
-        <div className={`${detail ? "block" : "hidden"} transition-all mb-2`}>
+        <div className={`${detail ? "block" : "hidden"} transition-all mb-2 bg-slate-1t00 p-4 rounded-lg`}>
           <div className="flex items-center justify-between mb-2">
             <p className="text-lg text-slate-400">EA Key </p>
             <div className="flex items-center gap-2">

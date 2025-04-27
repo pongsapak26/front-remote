@@ -54,7 +54,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body id="BGALL">
+      <body id="BGALL" className="min-h-screen">
         <UserProvider>
           <Aos>
             <Navbar>

@@ -40,7 +40,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex align-middle justify-center pt-32">
+    <div className="flex align-middle justify-center pt-10">
       <div {...aosall} className="container m-auto">
         <div className="lg:w-1/4 md:w-1/3 sm:w-1/2 w-3/4 mx-auto bgbox p-4">
           <div className="flex justify-between max-w-48 mx-auto">
