@@ -1,6 +1,6 @@
 "use client";
 
-import { UserPen } from "lucide-react";
+import { MenuIcon, UserPen } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
@@ -10,11 +10,16 @@ export default function Menu({
   menuItems: { label: string; path: string }[];
 }) {
   const [openmenu, setOpenmenu] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const menuAllRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setOpenmenu(false); // ปิด UserMenu หากคลิกนอกเมนู
+      if (
+        menuAllRef.current &&
+        !menuAllRef.current.contains(event.target as Node)
+      ) {
+        console.log("Clicked outside, closing menu"); // Debugging
+        setOpenmenu(false); // ปิดเมนูเมื่อคลิกนอกเมนู
       }
     };
 
@@ -25,33 +30,20 @@ export default function Menu({
   }, []);
 
   return (
-    <div className="relative md:hidden">
+    <div className="relative md:hidden" ref={menuAllRef}>
       {/* User Icon Button */}
       <button
-        onClick={() => setOpenmenu(!openmenu)}
-        className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        onClick={() => {
+          setOpenmenu(!openmenu);
+        }}
+        className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition flex"
       >
-        <svg
-          className="w-5 h-5"
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 17 14"
-        >
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M1 1h15M1 7h15M1 13h15"
-          />
-        </svg>
+        <MenuIcon className="w-6 h-6" />
       </button>
       {/* Modal Menu */}
       <div
-        ref={menuRef}
         className={`${
-          openmenu ? "top-14" : "-top-40"
+          openmenu ? "top-14" : "-top-48"
         } transition-all absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg overflow-hidden z-20`}
       >
         {menuItems.map((item) => {

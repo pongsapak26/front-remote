@@ -2,8 +2,8 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="container mx-auto mt-auto text-slate-400 mt-10 flex flex-col items-center justify-center">
-      <div className="mt-32">
+    <footer className="container mx-auto mt-10 text-slate-400 px-5 flex flex-col items-center justify-center">
+      <div className="mt-32 text-sm">
         คำเตือนความเสี่ยง:
         เว็บไซต์นี้ให้บริการเฉพาะการควบคุมและตั้งค่าการทำงานของ EA
         เพื่อการเลื่อน Stop Loss อย่างปลอดภัยเท่านั้น
