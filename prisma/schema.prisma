@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "mysql" // ใช้ได้กับ MariaDB ด้วย
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "windows", "debian-openssl-3.0.x"]
+}
+
+// User model
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  role      String   @default("user")
+  keylimit  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  transactions Transaction[]
+  eakeys       Eakey[]
+
+  @@map("user")
+}
+
+// Transaction model
+model Transaction {
+  id          Int      @id @default(autoincrement())
+  product     String
+  price       Float
+  description String
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+  deleted     Boolean  @default(false)
+
+  // Relations
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  @@map("transaction")
+}
+
+// Eakey model
+model Eakey {
+  id               Int       @id @default(autoincrement())
+  eaName           String
+  eaapiKey         String    @unique
+  account          String    @default("demo")
+  buyStart         Float     @default(0)
+  buyEnd           Float     @default(0)
+  sellStart        Float     @default(0)
+  sellEnd          Float     @default(0)
+  statusBuy        Boolean   @default(false)
+  statusSell       Boolean   @default(false)
+  buylotlimit      Float     @default(0.01)
+  selllotlimit     Float     @default(0.01)
+  trailingfibo     Float     @default(0)
+  trailingrang     Float     @default(0)
+  breakeventrigger Float     @default(0)
+  breakevenrang    Float     @default(0)
+  buylot           Float     @default(0.01)
+  selllot          Float     @default(0.01)
+  exp              DateTime  @default(now())
+  type             String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  deletedAt        DateTime?
+  deleted          Boolean   @default(false)
+
+  // Relations
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  @@map("eakey")
+}

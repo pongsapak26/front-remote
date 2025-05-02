@@ -1,35 +1,37 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextRequest, NextResponse } from 'next/server';
+import { verifyUser } from './lib/auth';
 
-export function middleware(request: NextRequest) {
-  const token = request.cookies.get('token')?.value
-  const { pathname } = request.nextUrl
-
-  // ยกเว้นเส้นทางที่ไม่ต้องตรวจ token
-  const publicPaths = [
-    '/',
-    '/login',
-    '/register'
-  ]
-
-  const isPublic = publicPaths.some(path => pathname.startsWith(path)) || pathname.startsWith('/api')
-
-  if (!token && !isPublic) {
-    return NextResponse.redirect(new URL('/login', request.url))
+export function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+  if (pathname === '/' || pathname.startsWith('/login')) {
+    return NextResponse.next();
   }
-
-  return NextResponse.next()
+  if (pathname === '/register' || pathname.startsWith('/login') || pathname === '/api/forex') {
+    return NextResponse.next();
+  }
+  const token = req.cookies.get("token")?.value || '';
+  if (!token) {
+    return NextResponse.redirect(new URL('/login', req.url));
+  }
+  const verify = verifyUser(token)
+  if (!verify) {
+    return NextResponse.redirect(new URL('/login', req.url));
+  }else {
+    return NextResponse.next();
+  }
 }
+
 export const config = {
-    matcher: [
-      /**
-       * ใช้ Regex นี้เพื่อ:
-       * - ใช้ middleware ทุกหน้าจริงๆ
-       * - แต่ยกเว้น:
-       *   - /_next/ (ไฟล์ JS, CSS จาก Next.js)
-       *   - /favicon.ico
-       *   - /images/, /fonts/, etc.
-       */
-      '/((?!_next/static|_next/image|favicon.ico|images|fonts|api).*)',
-    ],
-  }
+  matcher: [
+    /**
+     * ใช้ Regex นี้เพื่อ:
+     * - ใช้ middleware ทุกหน้าจริงๆ
+     * - แต่ยกเว้น:
+     *   - /_next/ (ไฟล์ JS, CSS จาก Next.js)
+     *   - /favicon.ico
+     *   - /images/, /fonts/, etc.
+     */
+    '/((?!_next/static|_next/image|favicon.ico|images|fonts|api).*)',
+  ],
+}

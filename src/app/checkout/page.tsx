@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 export default function Page() {
   const router = useRouter();
-  const { cart } = useUserContext();
+  const { user, cart } = useUserContext();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   // ใช้ useEffect สำหรับการตรวจสอบ cart.price
@@ -39,7 +39,7 @@ export default function Page() {
       const response = await imageToDiscord(
         selectedFile,
         cart.price.toString(),
-        cart.username,
+        user.username,
         cart.product
       );
       console.log(response);
@@ -62,31 +62,32 @@ export default function Page() {
   return (
     <div className="flex align-middle justify-center pt-30">
       <div className="container m-auto p-4">
-        <h1 className="text-3xl font-bold mb-8 text-center">
-          Extend Subscription
-        </h1>
+        <h1 className="text-3xl font-bold mb-8 text-center">ชำระเงิน</h1>
         <div
           {...aosall}
           className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 gap-4"
         >
-          <div className=" p-4 flex flex-col justify-center align-middle w-fit mx-auto bgallbox">
+          <div className="bg-slate-200 dark:bg-slate-600 p-4 flex flex-col justify-center align-middle w-fit mx-auto">
             <img
               src={`https://promptpay.io/${process.env.NEXT_PUBLIC_PHONE_PAYMENT}/${cart.price}`}
               className="w-60 h-60 mx-auto"
               alt=""
             />
-            <h2 className="text-xl text-center font-bold my-2">
-              {cart.product}
-            </h2>
-            <p className="text-gray-400 mb-2">Price: {cart.price} Baht</p>
-            <p className="text-gray-400 mb-2">Duration: 30 Days</p>
+            <div className="flex justify-between items-center mt-5">
+              <p className="text-gray-400 mb-2">คำสั่งซื้อ:</p>
+              <p className="text-gray-400 mb-2">{cart.product} Baht</p>
+            </div>
+            <div className="flex justify-between items-center">
+              <p className="text-gray-400 mb-2">ราคา:</p>
+              <p className="text-gray-400 mb-2">{cart.price} Baht</p>
+            </div>
             <p className="text-gray-400 mb-2">Upload your payment proof</p>
             <div className="flex flex-col items-center">
               <label
                 htmlFor="file-upload"
-                className="cursor-pointer transition-all bg-gray-600 hover:bg-gray-700 py-2 px-4 text-center"
+                className="cursor-pointer transition-all text-white bg-slate-800 hover:bg-slate-900 py-2 px-4 text-center"
               >
-                Choose File
+                เลือกสลิป
               </label>
               <input
                 id="file-upload"
@@ -104,20 +105,10 @@ export default function Page() {
               onClick={handleUpload}
               className="w-full transition-all bg-yellow-800 hover:bg-yellow-900 text-white py-2 mt-2 cursor-pointer"
             >
-              {loading ? "Uploading..." : "Upload"}
+              {!loading ? "Uploading..." : "ยืนยันการชำระเงิน"}
             </button>
           </div>
         </div>
-
-        <button
-          onClick={() => {
-            router.push(`/profile`);
-            // Handle save logic here
-          }}
-          className="w-1/4 transition-all btn-bgred text-white py-2 mt-4 cursor-pointer mx-auto block text-center"
-        >
-          Back
-        </button>
       </div>
     </div>
   );

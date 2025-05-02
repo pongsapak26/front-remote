@@ -1,33 +1,43 @@
-"use client"
+"use client";
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import Cookies from "js-cookie";
 
 interface UserContextType {
-    cart: {
-        userId: string;
-        username: string;
-        price: number;
-        product: string;
-    };
-    setCart: React.Dispatch<React.SetStateAction<{
-        userId: string;
-        username: string;
-        price: number;
-        product: string;
-    }>>;
+  user: {
+    id: string;
+    username: string;
+  };
+  cart: {
+    price: number;
+    product: string;
+  };
+  setUser: React.Dispatch<
+    React.SetStateAction<{
+      id: string;
+      username: string;
+    }>
+  >;
+  setCart: React.Dispatch<
+    React.SetStateAction<{
+      price: number;
+      product: string;
+    }>
+  >;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState({
-    userId: "",
-    username: "",
     price: 0,
     product: "",
   });
-
+  const [user, setUser] = useState({
+    id: Cookies.get("userId") || "",
+    username: Cookies.get("username") || "",
+  });
   return (
-    <UserContext.Provider value={{ cart, setCart }}>
+    <UserContext.Provider value={{ cart, setCart, setUser, user }}>
       {children}
     </UserContext.Provider>
   );

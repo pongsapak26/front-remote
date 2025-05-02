@@ -2,14 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import UserMenu from "./UserMenu";
-import Menu from "./Menu";
 import Footer from "./Footer";
-
-const menuItems = [
-  { label: "Home", path: "/" },
-  { label: "EA", path: "/ea" },
-  { label: "Contact", path: "/contact" },
-];
 
 const Navbar = ({
   children,
@@ -17,8 +10,8 @@ const Navbar = ({
   children: React.ReactNode;
 }>) => {
   const [show, setShow] = useState(true);
+  
   const [lastScrollY, setLastScrollY] = useState(0);
-
   const controlNavbar = () => {
     if (window.scrollY > lastScrollY) {
       setShow(false);
@@ -41,46 +34,14 @@ const Navbar = ({
         }`}
       >
         <div className="container mx-auto flex justify-between items-center">
-          <Menu menuItems={menuItems} />
           <div className="flex items-center space-x-4">
             <Link
               href="/"
-              className="cursor-pointer text-3xl font-semibold ml-7 md:ml-0"
+              className="cursor-pointer text-3xl font-semibold ml-0"
             >
               AFK
             </Link>
-            <div
-              className="hidden w-full md:block md:w-auto"
-              id="navbar-dropdown"
-            >
-              <ul className="flex space-x-4 items-center">
-                {menuItems.map((item) => (
-                  <li key={item.path}>
-                    <Link href={item.path} className="hover:underline">
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-
-                {/* <li className="">
-            <div className="switch  w-10">
-              <input
-                type="checkbox"
-                className="switch__input w-10"
-                id="Switch"
-                checked={!darkMode}
-                onClick={toggleDarkMode}
-              />
-              <label className="switch__label  scale-50" htmlFor="Switch">
-                <span className="switch__indicator"></span>
-                <span className="switch__decoration"></span>
-              </label>
-            </div>
-          </li> */}
-              </ul>
-            </div>
           </div>
-
           <UserMenu />
         </div>
       </nav>

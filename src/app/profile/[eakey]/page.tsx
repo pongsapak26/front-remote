@@ -24,11 +24,20 @@ export default function Page() {
     trailingrang: "",
     breakeventrigger: "",
     breakevenrang: "",
+    buyStart: "",
+    buyEnd: "",
+    sellStart: "",
+    sellEnd: "",
+    buylot: "",
+    selllot: "",
+    buylotlimit: "",
+    selllotlimit: "",
     exp: new Date(),
     account: "",
     eaName: "",
     eaapiKey: "",
-    _id: "",
+    id: "",
+    type: "",
   });
   if (!eakey) {
     notFound(); // หรือทำการจัดการกรณีที่ไม่มี eakey
@@ -37,7 +46,7 @@ export default function Page() {
   useEffect(() => {
     const fetchEakey = async () => {
       const res = await getEaKeyById(eakey);
-      setdata(res.eakey);
+      setdata(res.eakeys);
     };
 
     fetchEakey();
@@ -45,7 +54,7 @@ export default function Page() {
 
   const handleChange = async () => {
     try {
-      const status = await editEakey(data, setloading, data._id);
+      const status = await editEakey(data, setloading, data.id);
       if (status) {
         showAlert("Success", status.message, "success");
         router.push("/profile"); // Redirect to profile page after successful login
@@ -54,6 +63,107 @@ export default function Page() {
       showAlert("Error", "Login failed" + error, "error");
     }
   };
+
+  const fields = [
+    {
+      label: "Name",
+      name: "eaName",
+      placeholder: "Name",
+      value: data.eaName,
+      type: "all",
+    },
+    {
+      label: "Account ID",
+      name: "account",
+      placeholder: "Account ID",
+      value: data.account,
+      type: "all",
+    },
+    {
+      label: "Trailing trigger",
+      name: "trailingfibo",
+      placeholder: "Trailing trigger",
+      value: data.trailingfibo,
+      type: "sl",
+    },
+    {
+      label: "Trailing rang",
+      name: "trailingrang",
+      placeholder: "Trailing rang",
+      value: data.trailingrang,
+      type: "sl",
+    },
+    {
+      label: "Breakeven trigger",
+      name: "breakeventrigger",
+      placeholder: "Breakeven trigger",
+      value: data.breakeventrigger,
+      type: "sl",
+    },
+    {
+      label: "Breakeven rang",
+      name: "breakevenrang",
+      placeholder: "Breakeven rang",
+      value: data.breakevenrang,
+      type: "sl",
+    },
+    {
+      label: "Buy Start",
+      name: "buyStart",
+      placeholder: "Buy Start",
+      value: data.buyStart,
+      type: "rsi",
+    },
+    {
+      label: "Buy End",
+      name: "buyEnd",
+      placeholder: "Buy End",
+      value: data.buyEnd,
+      type: "rsi",
+    },
+    {
+      label: "Sell Start",
+      name: "sellStart",
+      placeholder: "Sell Start",
+      value: data.sellStart,
+      type: "rsi",
+    },
+    {
+      label: "Sell End",
+      name: "sellEnd",
+      placeholder: "Sell End",
+      value: data.sellEnd,
+      type: "rsi",
+    },
+    {
+      label: "Buy lot",
+      name: "buylot",
+      placeholder: "Buy lot",
+      value: data.buylot,
+      type: "rsi",
+    },
+    {
+      label: "Sell lot",
+      name: "selllot",
+      placeholder: "Sell lot",
+      value: data.selllot,
+      type: "rsi",
+    },
+    {
+      label: "Buy lot limit",
+      name: "buylotlimit",
+      placeholder: "Buy lot limit",
+      value: data.buylotlimit,
+      type: "rsi",
+    },
+    {
+      label: "Sell lot limit",
+      name: "selllotlimit",
+      placeholder: "Sell lot limit",
+      value: data.selllotlimit,
+      type: "rsi",
+    },
+  ];
 
   const router = useRouter();
   return (
@@ -74,82 +184,34 @@ export default function Page() {
             <X />
           </button>
         </div>
-        <div>
-          <label className="">Name</label>
-          <Input
-            type="text"
-            name="eaName"
-            placeholder="Name"
-            value={data.eaName}
-            onChange={(e) => setdata({ ...data, eaName: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="">Account ID</label>
-          <Input
-            type="text"
-            name="account"
-            placeholder="Account ID"
-            value={data.account}
-            onChange={(e) => setdata({ ...data, account: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="">Trailing trigger</label>
-          <Input
-            type="text"
-            name="trailing_fibo"
-            placeholder="Trailing trigger"
-            value={data.trailingfibo}
-            onChange={(e) => setdata({ ...data, trailingfibo: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="">Trailing rang</label>
-          <Input
-            type="text"
-            name="trailing_rang"
-            placeholder="Trailing rang"
-            value={data.trailingrang}
-            onChange={(e) => setdata({ ...data, trailingrang: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="">Breakeven trigger</label>
-          <Input
-            type="text"
-            name="breakeven_trigger"
-            placeholder="Breakeven trigger"
-            value={data.breakeventrigger}
-            onChange={(e) =>
-              setdata({ ...data, breakeventrigger: e.target.value })
-            }
-          />
-        </div>
-        <div>
-          <label className="">Breakeven rang</label>
-          <Input
-            type="text"
-            name="breakeven_rang"
-            placeholder="Breakeven rang"
-            value={data.breakevenrang}
-            onChange={(e) =>
-              setdata({ ...data, breakevenrang: e.target.value })
-            }
-          />
-        </div>
+        {fields.map((field, index) => {
+          if(field.type === "all" || field.type === data.type){ 
+            return (
+              <div key={index}>
+                <Input
+                  type="text"
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  value={field.value}
+                  onChange={(e) =>
+                    setdata({ ...data, [field.name]: e.target.value })
+                  }
+                />
+              </div>
+            );
+          }
+        })}
         <div className="justify-end flex pb-4">
-          <div className="w-2/12">
-          
-          <Button
-            type="button"
-            label="Save"
-            loading={loading}
-            onClick={() => {
-              handleChange();
-            }}
-            addicon="save"
-          />
+          <div className="w-4/12">
+            <Button
+              type="button"
+              label="Save"
+              loading={loading}
+              onClick={() => {
+                handleChange();
+              }}
+              addicon="save"
+            />
           </div>
         </div>
       </div>

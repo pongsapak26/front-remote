@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { showAlert } from "../../lib/sweetAlert";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -17,19 +17,20 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false); // จัดการสถานะการแสดงผลรหัสผ่าน
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { setCart } = useUserContext();
-
+  const { user, setUser } = useUserContext();
+  // ใช้ useEffect เพื่อตรวจสอบสถานะผู้ใช้และเปลี่ยนเส้นทาง
+  useEffect(() => {
+    if (user.id !== "") {
+      router.push("/profile"); // Redirect to profile page if user is already logged in
+    }
+  }, [user, router]);
   const handleLogin = async () => {
     try {
       const data = await login(email, password, setLoading);
-
-      console.log(data?.res.user.username);
       if (data?.status) {
-        setCart({
-          userId: data.res.user.id,
+        setUser({
+          id: data.res.user.id,
           username: data.res.user.username,
-          price: 0,
-          product: "",
         });
         showAlert("Success", "Login successful!", "success");
         router.push("/profile"); // Redirect to profile page after successful login

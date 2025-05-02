@@ -10,21 +10,30 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@prisma/client": "^6.7.0",
     "aos": "^2.3.4",
-    "axios": "^1.8.4",
+    "axios": "^1.9.0",
+    "bcryptjs": "^3.0.2",
+    "date-fns-tz": "^3.2.0",
+    "formidable": "^3.5.4",
+    "jose": "^6.0.10",
     "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.503.0",
     "next": "15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "sweetalert2": "^11.17.2"
+    "sweetalert2": "^11.17.2",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/aos": "^3.0.7",
+    "@types/formidable": "^3.4.5",
     "@types/gsap": "^3.0.0",
     "@types/js-cookie": "^3.0.6",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -32,6 +41,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
     "postcss": "^8.5.3",
+    "prisma": "^6.7.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

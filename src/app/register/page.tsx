@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { aosall } from "@/lib/aos";
 import { Eye, EyeOff } from "lucide-react";
+import { useUserContext } from "@/context/UserContext";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -17,6 +18,10 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { user } = useUserContext();
+  if (user.id !== "") {
+    router.push("/profile"); // Redirect to profile page if user is already logged in
+  }
   const handleRegister = async () => {
     try {
       const data = await register(email, password, username, setLoading);
@@ -40,7 +45,9 @@ const Register = () => {
             <h2 className="text-2xl mb-4 text-center text-slate-400">Login</h2>
           </Link>
           <Link href="/register" id="showLogin">
-            <h2 className="text-2xl mb-4 text-center font-bold underline text-slate-900">Register</h2>
+            <h2 className="text-2xl mb-4 text-center font-bold underline text-slate-900">
+              Register
+            </h2>
           </Link>
         </div>
         <div className="mb-1">
@@ -62,25 +69,25 @@ const Register = () => {
           />
         </div>
         <div className="mb-1 relative">
-            <Input
-              type={showPassword ? "text" : "password"} // เปลี่ยน type ระหว่าง text และ password
-              name="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)} // สลับสถานะ showPassword
-              className="absolute right-3 bottom-0 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-            >
-              {showPassword ? (
-                <EyeOff className="w-5 h-5" />
-              ) : (
-                <Eye className="w-5 h-5" />
-              )}
-            </button>
-          </div>
+          <Input
+            type={showPassword ? "text" : "password"} // เปลี่ยน type ระหว่าง text และ password
+            name="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)} // สลับสถานะ showPassword
+            className="absolute right-3 bottom-0 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          >
+            {showPassword ? (
+              <EyeOff className="w-5 h-5" />
+            ) : (
+              <Eye className="w-5 h-5" />
+            )}
+          </button>
+        </div>
         <Button
           type="button"
           loading={loading}

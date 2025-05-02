@@ -52,9 +52,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  
+
   return (
     <html lang="en">
-      <body id="BGALL" className="min-h-screen">
+      <body id="BGALL" className="min-h-screen bg-white dark:bg-black">
         <UserProvider>
           <Aos>
             <Navbar>

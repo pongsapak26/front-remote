@@ -28,8 +28,8 @@ const Button: React.FC<ButtonProps> = ({ type, onClick, label, loading,addicon }
       onClick={onClick}
       className="w-full flex justify-center items-center transition-all rounded-md bg-sky-500 hover:bg-sky-600 p-2 mt-4 cursor-pointer text-white"
     >
-     <span className='mr-2'>{propicon}</span>
-     <span>{label}</span>
+      {propicon && <span className='ml-2'>{propicon}</span>}
+      <span className='mx-2'>{label}</span>
     </button>
   );
 };

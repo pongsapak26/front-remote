@@ -8,20 +8,11 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 export default function UserMenu() {
+  const { user } = useUserContext();
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-  const { cart } = useUserContext();
-  const [username, setUsername] = useState("");
   const menuRef = useRef<HTMLDivElement>(null); // ใช้สำหรับอ้างอิง UserMenu
-
-  useEffect(() => {
-    // ตรวจสอบว่าอยู่ใน Client-side ก่อนเข้าถึง localStorage
-    if (typeof window !== "undefined") {
-      const storedUsername = localStorage.getItem("username") || "";
-      setUsername(storedUsername);
-    }
-  }, []);
-
+  const [username, setUsername] = useState("");
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -56,6 +47,10 @@ export default function UserMenu() {
       document.documentElement.classList.remove("dark");
     }
   };
+  useEffect(() => {
+    const storedName = user.username || localStorage.getItem("username");
+    setUsername(storedName || ""); // Set the username from user context or local storage
+  }, []);
 
   return (
     <div className="relative" ref={menuRef}>
@@ -64,16 +59,20 @@ export default function UserMenu() {
         onClick={() => setOpen(!open)}
         className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition flex "
       >
-        {cart.username ?? <div className="mr-2">{cart.username}</div>}
+        {(user.username || username) ?? (
+          <div className="mr-2">
+            <span>{user.username || username}</span>
+          </div>
+        )}
         <User className="w-6 h-6" />
       </button>
       {/* Modal Menu */}
       <div
         className={`${
-          open ? "top-14 " : "-top-48"
+          open ? "top-14 " : "-top-80"
         } transition-all absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg overflow-hidden z-20`}
       >
-        {username != "" ? (
+        {user.username != "" ? (
           <>
             <Link
               href="/profile"
@@ -81,6 +80,13 @@ export default function UserMenu() {
             >
               Profile
             </Link>
+            <Link
+              href="/transaction"
+              className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+              Transaction
+            </Link>
+
             <div
               onClick={() => {
                 handleLogout();
@@ -114,6 +120,18 @@ export default function UserMenu() {
             </Link>
           </>
         )}
+        <Link
+          href="/terms-and-conditions"
+          className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          Terms And Conditions
+        </Link>
+        <Link
+          href="/privacy-policy"
+          className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          Privacy Policy
+        </Link>
         <div
           onClick={() => {
             toggleDarkMode();

@@ -1,6 +1,8 @@
 "use client";
 import { useUserContext } from "@/context/UserContext";
+import { aosall } from "@/lib/aos";
 import { getUserProfile } from "@/lib/api";
+import { CalendarArrowUp, KeyRound } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -13,19 +15,19 @@ interface Product {
 
 const products: Product[] = [
   {
-    name: "3 Day",
+    name: "3 วัน",
     price: 290,
     description: "Buy 3 Day",
     duration: 3,
   },
   {
-    name: "7 Day",
+    name: "7 วัน",
     price: 590,
     description: "Buy 7 Day",
     duration: 7,
   },
   {
-    name: "30 Day",
+    name: "30 วัน",
     price: 1690,
     description: "Buy 30 Day",
     duration: 30,
@@ -54,19 +56,11 @@ const products2: Product[] = [
 export default function Page() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [user, setuser] = useState({
-    username: "",
-    email: "",
-    keylimit: "",
-    _id: "",
-  });
   const { setCart } = useUserContext();
 
   const handleBuy = (product: Product) => {
     // Handle the buy action here
     setCart({
-      userId: user._id,
-      username: user.username,
       price: product.price,
       product: product.name,
     });
@@ -79,7 +73,6 @@ export default function Page() {
       if (res.status === 400) {
         router.push("/login"); // Redirect to login page if user is not authenticated
       }
-      setuser(res); // Set user data to state
     };
     fetchUserProfile();
     setLoading(true); // Set loading to true while fetching user profile
@@ -95,46 +88,60 @@ export default function Page() {
 
   return (
     <div className="h-full flex align-middle justify-center">
-      <div className="container m-auto p-4">
-        <h1 className="text-3xl font-bold mb-8 text-center">
-          Extend Subscription
-        </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="container m-auto py-8">
+        <div {...aosall} className="flex justify-start gap-2 items-center mb-8">
+          <CalendarArrowUp className="w-10 h-10" />
+          <h1 className="text-3xl font-bold text-start">ต่ออายุการใช้งาน</h1>
+        </div>
+        <div {...aosall} className="bgbox p-4 shadow-lg grid grid-cols-1 lg:grid-cols-3 gap-4">
           {products.map((product, index) => (
-            <div key={index} className="bg-gray-800 shadow-lg p-6 text-center">
-              <h2 className="text-2xl font-semibold mb-4">{product.name}</h2>
-              <p className="mb-4">{product.description}</p>
-              <div className="text-xl font-bold mb-4">{product.price} USD</div>
-              <div className="mb-4">
+            <div key={index} className="shadow-lg p-6 text-center dark:bg-slate-900">
+              <div className="flex justify-between">
+                <p className="mb-4 text-slate-400">ระยะเวลา</p>
+                <p className="mb-4 ">{product.name}</p>
+              </div>
+              <div className="flex justify-between">
+                <p className="mb-4 text-slate-400">ราคา</p>
+                <p className="mb-4">{product.price.toLocaleString()} บาท</p>
+              </div>
+              <div className="mb-4 justify-end flex">
                 <button
                   onClick={() => handleBuy(product)}
-                  className="w-full transition-all btn-bggreen text-white py-2 cursor-pointer"
+                  className="p-4 transition-all btn-bggreen text-white py-2 cursor-pointer"
                 >
-                  Buy {product.price} THB
+                  สั่งซื้อ
                 </button>
               </div>
             </div>
           ))}
         </div>
-        <h1 className="text-3xl font-bold my-8 text-center">Buy Key EA</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div {...aosall} className="flex justify-start gap-2 items-center my-8">
+          <KeyRound className="w-10 h-10" />
+          <h1 className="text-3xl font-bold text-start">ซื้อรหัสใช้งาน EA</h1>
+        </div>
+        <div {...aosall} className="bgbox p-4 shadow-lg grid grid-cols-1 lg:grid-cols-3 gap-4">
           {products2.map((product, index) => (
-            <div key={index} className="bg-gray-800 shadow-lg p-6 text-center">
-              <h2 className="text-2xl font-semibold mb-4">{product.name}</h2>
-              <p className="mb-4">{product.description}</p>
-              <div className="text-xl font-bold mb-4">{product.price} USD</div>
-              <div className="mb-4">
+            <div key={index} className="shadow-lg p-6 text-center dark:bg-slate-900">
+              <div className="flex justify-between">
+                <p className="mb-4 text-slate-400">จำนวน Key</p>
+                <p className="mb-4 ">{product.name}</p>
+              </div>
+              <div className="flex justify-between">
+                <p className="mb-4 text-slate-400">ราคา</p>
+                <p className="mb-4">{product.price.toLocaleString()} บาท</p>
+              </div>
+              <div className="mb-4 justify-end flex">
                 <button
                   onClick={() => handleBuy(product)}
-                  className="w-full transition-all btn-bggreen text-white py-2 cursor-pointer "
+                  className="p-4 transition-all btn-bggreen text-white py-2 cursor-pointer"
                 >
-                  Buy {product.price} THB
+                  สั่งซื้อ
                 </button>
               </div>
             </div>
           ))}
         </div>
-        <button
+        {/* <button
           onClick={() => {
             router.push(`/profile`);
             // Handle save logic here
@@ -142,7 +149,7 @@ export default function Page() {
           className="w-1/4 transition-all btn-bgred text-white py-2 mt-4 cursor-pointer mx-auto block text-center"
         >
           Back
-        </button>
+        </button> */}
       </div>
     </div>
   );
