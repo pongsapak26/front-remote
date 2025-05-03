@@ -20,12 +20,12 @@ jobs:
           
       - name: Install dependencies
         run: npm install
-          
-      - name: Install migrate deploy
-        run: npx prisma migrate deploy
         
       - name: Install prisma generate
-        run: npx prisma generate
+        run: npx prisma generate      
+        
+      - name: Install migrate deploy
+        run: npx prisma migrate deploy 
 
       - name: Build Next.js
         run: npm run build
