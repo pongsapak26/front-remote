@@ -34,25 +34,25 @@ jobs:
           username: ${{ secrets.PLESK_USER }}
           password: ${{ secrets.PLESK_PASSWORD }}
           local-dir: .next/standalone/
-          server-dir: /
+          server-dir: httpdocs/
 
-      - name: Upload static files
+      - name: Upload static files (.next/static)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.PLESK_HOST }}
           username: ${{ secrets.PLESK_USER }}
           password: ${{ secrets.PLESK_PASSWORD }}
           local-dir: .next/static/
-          server-dir: /.next/static/
+          server-dir: httpdocs/.next/static/
 
-      - name: Upload static files
+      - name: Upload public files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.PLESK_HOST }}
-          username: ${{ secrets.PLESK_USER }}
-          password: ${{ secrets.PLESK_PASSWORD }}
-          local-dir: public/
-          server-dir: /public/
+            server: ${{ secrets.PLESK_HOST }}
+            username: ${{ secrets.PLESK_USER }}
+            password: ${{ secrets.PLESK_PASSWORD }}
+            local-dir: public/
+            server-dir: httpdocs/public/
     
       - name: SSH to Plesk using password
         uses: appleboy/ssh-action@master
