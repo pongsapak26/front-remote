@@ -18,30 +18,24 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-
+          
       - name: Install dependencies
         run: npm install
-        working-directory: front-remote
-
-      - name: Prisma generate
-        run: npx prisma generate
-        working-directory: front-remote
+        
+      - name: Install prisma generate
+        run: npx prisma generate      
 
       - name: Build Next.js
         run: npm run build
-        working-directory: front-remote
 
       - name: Zip standalone build
         run: zip -r standalone.zip .next/standalone
-        working-directory: front-remote
 
       - name: Zip static assets
         run: zip -r static.zip .next/static
-        working-directory: front-remote
 
       - name: Zip public folder
         run: zip -r public.zip public
-        working-directory: front-remote
 
       - name: Upload all .zip files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -50,7 +44,7 @@ jobs:
           username: ${{ secrets.PLESK_USER }}
           password: ${{ secrets.PLESK_PASSWORD }}
           local-dir: front-remote/
-          server-dir: httpdocs/
+          server-dir: /
           include: |
             standalone.zip
             static.zip
@@ -66,7 +60,7 @@ jobs:
           password: ${{ secrets.PLESK_PASSWORD }}
           port: 22
           script: |
-            cd /var/www/vhosts/yourdomain.com/httpdocs
+            cd /var/www/vhosts/afkprofitlab.com/httpdocs
             unzip -o standalone.zip
             unzip -o static.zip
             unzip -o public.zip
