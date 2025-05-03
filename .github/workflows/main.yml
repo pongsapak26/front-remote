@@ -57,12 +57,14 @@ jobs:
           local-dir: public/
           server-dir: /public/
     
-      - name: SSH into server and install dependencies
+      - name: SSH to Plesk using password
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.PLESK_HOST }}
           username: ${{ secrets.PLESK_USER }}
-          key: ${{ secrets.PLESK_SSH_KEY }}
+          password: ${{ secrets.PLESK_PASSWORD }}
           port: 22
           script: |
+            echo "Connected with password!"
+            cd /var/www/vhosts/yourdomain.com/httpdocs
             pm2 restart afk-next-app || pm2 start server.js --name afk-next-app
