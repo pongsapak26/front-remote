@@ -23,9 +23,6 @@ jobs:
         
       - name: Install prisma generate
         run: npx prisma generate      
-        
-      - name: Install migrate deploy
-        run: npx prisma migrate deploy 
 
       - name: Build Next.js
         run: npm run build
