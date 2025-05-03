@@ -43,7 +43,7 @@ jobs:
           server: ${{ secrets.PLESK_HOST }}
           username: ${{ secrets.PLESK_USER }}
           password: ${{ secrets.PLESK_PASSWORD }}
-          local-dir: front-remote/
+          local-dir: /
           server-dir: /
           include: |
             standalone.zip
