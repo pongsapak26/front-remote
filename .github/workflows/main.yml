@@ -18,24 +18,30 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-          
+
       - name: Install dependencies
         run: npm install
-        
+        working-directory: front-remote
+
       - name: Install prisma generate
-        run: npx prisma generate      
+        run: npx prisma generate
+        working-directory: front-remote
 
       - name: Build Next.js
         run: npm run build
+        working-directory: front-remote
 
       - name: Zip standalone build
         run: zip -r standalone.zip .next/standalone
+        working-directory: front-remote
 
       - name: Zip static assets
         run: zip -r static.zip .next/static
+        working-directory: front-remote
 
       - name: Zip public folder
         run: zip -r public.zip public
+        working-directory: front-remote
 
       - name: Upload all .zip files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -43,14 +49,14 @@ jobs:
           server: ${{ secrets.PLESK_HOST }}
           username: ${{ secrets.PLESK_USER }}
           password: ${{ secrets.PLESK_PASSWORD }}
-          local-dir: /
-          server-dir: /
-          include: |
-            standalone.zip
-            static.zip
-            public.zip
           protocol: ftps
-          passive: true
+          local-dir: front-remote/
+          server-dir: httpdocs/
+          exclude: |
+            !standalone.zip
+            !static.zip
+            !public.zip
+            *
 
       - name: SSH unzip all and start PM2
         uses: appleboy/ssh-action@master
@@ -67,3 +73,4 @@ jobs:
             rm -f standalone.zip static.zip public.zip
             cd .next/standalone
             pm2 restart afk-next-app || pm2 start server.js --name afk-next-app
+            pm2 save
