@@ -66,7 +66,7 @@ jobs:
           debug: true              # ✅ เพิ่ม
           script: |
             set -x
-            cd /var/www/vhosts/afkprofitlab.com/httpdocs || { echo "❌ cd failed"; exit 1; }
+            cd / || { echo "❌ cd failed"; exit 1; }
 
             echo "📂 list before unzip:"
             ls -la
