@@ -28,17 +28,24 @@ jobs:
       - name: 🏗️ Build Next.js
         run: npm run build
 
+      - name: 📦 Zip public/
+        run: zip -r public.zip public
+
       - name: 📦 Zip standalone content (no parent folder)
         run: |
           cd .next/standalone
           zip -r ../../standalone.zip .
 
       - name: 📦 Zip .next/static
-        run: zip -r static.zip static
+        run: zip -r ../static.zip static
         working-directory: .next
 
       - name: 📦 Zip public/
         run: zip -r public.zip public
+
+      - name: 📂 Check that .zip files exist before FTP
+        run: |
+          ls -lh public.zip
 
       - name: 🚀 Upload .zip files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -48,37 +55,29 @@ jobs:
           password: ${{ secrets.PLESK_PASSWORD }}
           protocol: ftps
           local-dir: ./
-          server-dir: /
+          server-dir: /httpdocs/
           exclude: |
+            *
             !standalone.zip
             !static.zip
             !public.zip
-            *
-
-      - name: 🔧 SSH unzip + start PM2
+            
+      - name: 🔧 SSH unzip public.zip in /httpdocs
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.PLESK_HOST }}
           username: ${{ secrets.PLESK_USER }}
           password: ${{ secrets.PLESK_PASSWORD }}
           port: 22
+          debug: true
           script: |
-            echo "📂 list before unzip:"
-            ls -la
-
-            echo "📦 Unzipping files..."
-            unzip -o standalone.zip || { echo "❌ unzip standalone.zip failed"; exit 1; }
-            unzip -o static.zip || { echo "❌ unzip static.zip failed"; exit 1; }
-            unzip -o public.zip || { echo "❌ unzip public.zip failed"; exit 1; }
-
-            echo "📦 Moving static into .next/static"
-            mkdir -p .next
-            mv -v static .next/static || { echo "❌ move static failed"; exit 1; }
-
-            echo "🧹 Cleaning up..."
-            rm -f standalone.zip static.zip public.zip
-
-            echo "🚀 Starting PM2"
-            cd .next/standalone || { echo "❌ cd .next/standalone failed"; exit 1; }
-            pm2 restart afk-next-app || pm2 start server.js --name afk-next-app
-            pm2 save
+            cd /httpdocs
+            ls -lh
+            unzip -o public.zip
+            unzip -o standalone.zip
+            mv -v static.zip .next/
+            cd .next
+            unzip -o static.zip
+            rm -f static.zip
+            cd ..
+            rm -f public.zip standalone.zip
