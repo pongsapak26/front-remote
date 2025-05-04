@@ -75,6 +75,6 @@ jobs:
             rm -f public.zip
             rm -f static.zip
             rm -f standalone.zip
+            export PATH="$PATH:/usr/local/bin:$HOME/.npm-global/bin"
             pm2 restart afk-next-app
-
-
+            pm2 save
