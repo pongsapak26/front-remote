@@ -34,7 +34,7 @@ jobs:
             !public.zip
             *
 
-      - name: 🔧 SSH unzip + start PM2
+      - name: 🔧 SSH unzip public only
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.PLESK_HOST }}
@@ -45,26 +45,17 @@ jobs:
           script: |
             set -e
             cd ~/deploy-temp
-                    
+        
             echo "📂 Files in deploy-temp before unzip:"
             ls -lh
-                    
+        
+            echo "📦 Previewing public.zip contents..."
+            unzip -l public.zip || { echo "❌ Cannot preview public.zip"; exit 1; }
+        
             echo "📦 Unzipping public.zip..."
-            unzip -l public.zip || echo "❗ can't preview public.zip"
             unzip -o public.zip || { echo "❌ unzip public.zip failed"; exit 1; }
-                    
+        
             echo "📁 After unzip:"
             ls -lhR
-                    
-            echo "🚀 Starting PM2 app"
-            cd .next/standalone || { echo "❌ cd .next/standalone failed"; exit 1; }
-                    
-            if pm2 list | grep -q "afk-next-app"; then
-              echo "♻️ Restarting existing PM2 app..."
-              pm2 restart afk-next-app
-            else
-              echo "✨ Starting new PM2 app..."
-              pm2 start server.js --name afk-next-app
-            fi
-                    
-            pm2 save
+        
+            echo "✅ public.zip unzip complete ✅"
