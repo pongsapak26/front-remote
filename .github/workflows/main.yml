@@ -72,7 +72,4 @@ jobs:
           script: |
             cd /httpdocs
             ls -lh
-            rm -f public.zip static.zip standalone.zip
-            npm install -g pm2
-            pm2 restart afk-next-app || pm2 start server.js --name afk-next-app
-            pm2 save
+
