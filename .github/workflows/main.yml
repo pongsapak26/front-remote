@@ -27,9 +27,10 @@ jobs:
           server: ${{ secrets.PLESK_HOST }}
           username: ${{ secrets.PLESK_USER }}
           password: ${{ secrets.PLESK_PASSWORD }}
-          protocol: ftps
+          protocol: ftp
           local-dir: ./
           server-dir: ./
+          port: 21
           passive: true
           exclude: |
             *
