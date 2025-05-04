@@ -41,6 +41,7 @@ jobs:
           username: ${{ secrets.PLESK_USER }}
           password: ${{ secrets.PLESK_PASSWORD }}
           port: 22
+          debug: true
           script: |
             set -e
             cd /
