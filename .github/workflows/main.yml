@@ -44,7 +44,7 @@ jobs:
           debug: true
           script: |
             set -e
-      
+            set -x
             echo "👤 Whoami:"
             whoami
       
