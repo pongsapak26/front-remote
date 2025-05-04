@@ -1,8 +1,8 @@
-"use client"
+"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useUserContext } from "@/context/UserContext";
 import { aosall } from "@/lib/aos";
-import { imageToDiscord,  } from "@/lib/api"; // <- เพิ่ม
+import { imageToDiscord } from "@/lib/api"; // <- เพิ่ม
 import { showAlert } from "@/lib/sweetAlert";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ export default function Page() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [couponCode, setCouponCode] = useState(""); // ✅ ใส่ code
+  const [couponCodeId, setCouponCodId] = useState(""); // ✅ ใส่ code
   const [discountedPrice, setDiscountedPrice] = useState(cart.price); // ✅ ราคาหลังลด
 
   useEffect(() => {
@@ -37,15 +38,16 @@ export default function Page() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Invalid code");
 
-      const newPrice = cart.price - data.discount
-      
+      const newPrice = cart.price - data.discount;
+
       setDiscountedPrice(Math.max(0, Math.round(newPrice)));
+      setCouponCodId(data.id);
       showAlert("สำเร็จ", `ใช้โค้ดสำเร็จ ลดราคาแล้ว`, "success");
     } catch (error: any) {
       showAlert("ผิดพลาด", error.message || "โค้ดไม่ถูกต้อง", "error");
     }
   };
-  
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]; // ดึงไฟล์แรกที่ผู้ใช้เลือก
     if (file) {
@@ -53,6 +55,7 @@ export default function Page() {
       console.log("Selected file:", file.name); // แสดงชื่อไฟล์ใน console
     }
   };
+
   const handleUpload = async () => {
     setLoading(true);
     if (!selectedFile) {
@@ -64,7 +67,9 @@ export default function Page() {
         selectedFile,
         discountedPrice.toString(),
         user.username,
-        cart.product
+        cart.product,
+        user.id,
+        couponCodeId
       );
       console.log(response);
       showAlert("Success", "Upload successful!", "success");
@@ -99,21 +104,24 @@ export default function Page() {
               <p>คำสั่งซื้อ: {cart.product}</p>
               <p>ราคาเต็ม: {cart.price} Baht</p>
               {discountedPrice !== cart.price && (
-                <p>ราคาหลังใช้โค้ด: <span className="text-green-500">{discountedPrice} Baht</span></p>
+                <p>
+                  ราคาหลังใช้โค้ด:{" "}
+                  <span className="text-green-500">{discountedPrice} Baht</span>
+                </p>
               )}
             </div>
 
-            <div className="flex mt-4 gap-2">
+            <div className="flex my-2 gap-2">
               <input
                 type="text"
                 value={couponCode}
                 onChange={(e) => setCouponCode(e.target.value)}
-                className="w-full px-2 py-1 border rounded text-black"
+                className="w-3/4 border rounded text-black p-3"
                 placeholder="ใส่โค้ดคูปอง"
               />
               <button
                 onClick={handleCoupon}
-                className="px-3 py-1 bg-indigo-700 text-white rounded hover:bg-indigo-800"
+                className="p-3 bg-slate-700 text-white rounded hover:bg-slate-800"
               >
                 ใช้โค้ด
               </button>
@@ -123,7 +131,7 @@ export default function Page() {
             <div className="flex flex-col items-center">
               <label
                 htmlFor="file-upload"
-                className="cursor-pointer bg-slate-800 hover:bg-slate-900 text-white py-2 px-4"
+                className="cursor-pointer bg-slate-700 hover:bg-slate-800 text-white py-2 px-4 mt-4"
               >
                 เลือกสลิป
               </label>
@@ -134,13 +142,15 @@ export default function Page() {
                 onChange={handleFileChange}
               />
               {selectedFile && (
-                <p className="text-gray-400 mt-2">Selected: {selectedFile.name}</p>
+                <p className="text-gray-400 mt-4">
+                  Selected: {selectedFile.name}
+                </p>
               )}
             </div>
 
             <button
               onClick={handleUpload}
-              className="w-full bg-yellow-800 hover:bg-yellow-900 text-white py-2 mt-2"
+              className="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-2 mt-4"
             >
               {loading ? "ยืนยันการชำระเงิน" : "Uploading..."}
             </button>

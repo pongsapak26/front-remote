@@ -43,17 +43,18 @@ export async function POST(req: NextRequest) {
     }
 
     // ✅ บันทึกการใช้คูปอง
-    await prisma.couponUsage.create({
-      data: {
-        userId:Number(userId),
-        couponId: coupon.id,
-      },
-    });
+    // await prisma.couponUsage.create({
+    //   data: {
+    //     userId:Number(userId),
+    //     couponId: coupon.id,
+    //   },
+    // });
 
     return NextResponse.json({
       success: true,
       discount: coupon.discount,
       type: coupon.type,
+      id: coupon.id,
       message: "ใช้คูปองสำเร็จ",
     });
   } catch (error) {

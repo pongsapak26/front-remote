@@ -178,7 +178,9 @@ export const imageToDiscord = async (
   image: File,
   price: string,
   username: string,
-  product: string
+  product: string,
+  userId: string,
+  couponId: string
 ) => {
   try {
     const formData = new FormData();
@@ -186,6 +188,8 @@ export const imageToDiscord = async (
     formData.append("price", price);
     formData.append("username", username);
     formData.append("product", product);
+    formData.append("couponId", couponId);
+    formData.append("userId", userId);
     const response = await axios.post(`/api/discord`, formData);
     return response.data;
   } catch (error) {
