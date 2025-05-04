@@ -14,29 +14,6 @@ jobs:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v3
 
-      - name: 🧰 Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-
-      - name: 📦 Install dependencies
-        run: npm install
-
-      - name: ⚙️ Prisma generate
-        run: npx prisma generate
-
-      - name: 🏗️ Build Next.js
-        run: npm run build
-
-      - name: 📦 Zip standalone content (no parent folder)
-        run: |
-          cd .next/standalone
-          zip -r ../../standalone.zip .
-
-      - name: 📦 Zip .next/static
-        run: zip -r static.zip static
-        working-directory: .next
-
       - name: 📦 Zip public/
         run: zip -r public.zip public
 
@@ -48,12 +25,9 @@ jobs:
           password: ${{ secrets.PLESK_PASSWORD }}
           protocol: ftps
           local-dir: ./
-          server-dir: /
+          server-dir: ./
           exclude: |
-            !standalone.zip
-            !static.zip
             !public.zip
-            *
 
       - name: 🔧 SSH unzip + start PM2
         uses: appleboy/ssh-action@master
@@ -63,22 +37,37 @@ jobs:
           password: ${{ secrets.PLESK_PASSWORD }}
           port: 22
           script: |
-            echo "📂 list before unzip:"
-            ls -la
+            set -e
+            cd /var/www/vhosts/afkprofitlab.com/httpdocs
 
-            echo "📦 Unzipping files..."
+            echo "📂 Files in httpdocs before unzip:"
+            ls -lh
+
+            echo "📦 Unzipping standalone.zip..."
             unzip -o standalone.zip || { echo "❌ unzip standalone.zip failed"; exit 1; }
+
+            echo "📦 Unzipping static.zip..."
             unzip -o static.zip || { echo "❌ unzip static.zip failed"; exit 1; }
+
+            echo "📦 Unzipping public.zip..."
             unzip -o public.zip || { echo "❌ unzip public.zip failed"; exit 1; }
 
             echo "📦 Moving static into .next/static"
             mkdir -p .next
             mv -v static .next/static || { echo "❌ move static failed"; exit 1; }
 
-            echo "🧹 Cleaning up..."
+            echo "🧹 Cleaning up zip files..."
             rm -f standalone.zip static.zip public.zip
 
-            echo "🚀 Starting PM2"
+            echo "🚀 Starting PM2 app"
             cd .next/standalone || { echo "❌ cd .next/standalone failed"; exit 1; }
-            pm2 restart afk-next-app || pm2 start server.js --name afk-next-app
+
+            if pm2 list | grep -q "afk-next-app"; then
+              echo "♻️ Restarting existing PM2 app..."
+              pm2 restart afk-next-app
+            else
+              echo "✨ Starting new PM2 app..."
+              pm2 start server.js --name afk-next-app
+            fi
+
             pm2 save
