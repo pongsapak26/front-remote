@@ -72,4 +72,12 @@ jobs:
           script: |
             cd /httpdocs
             ls -lh
+            unzip -o public.zip
+            unzip -o standalone.zip
+            mv -v static.zip .next/
+            cd .next
+            unzip -o static.zip
+            rm -f static.zip
+            cd ..
+            rm -f public.zip standalone.zip
 
