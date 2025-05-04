@@ -21,7 +21,7 @@ jobs:
         run: |
           ls -lh public.zip
 
-      - name: 🚀 Upload .zip files via FTP
+      - name: 🚀 Upload public.zip to /httpdocs via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.PLESK_HOST }}
@@ -29,9 +29,10 @@ jobs:
           password: ${{ secrets.PLESK_PASSWORD }}
           protocol: ftps
           local-dir: ./
-          server-dir: /
+          server-dir: /httpdocs
           exclude: |
-            !public.zip
             *
+            !public.zip
+
 
 
