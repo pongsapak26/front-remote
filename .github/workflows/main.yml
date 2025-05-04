@@ -21,15 +21,18 @@ jobs:
         run: |
           ls -lh public.zip
 
-      - name: 📤 Upload .zip files via SCP
-        uses: appleboy/scp-action@v0.1.6
+      - name: 🚀 Upload .zip files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          host: ${{ secrets.PLESK_HOST }}
+          server: ${{ secrets.PLESK_HOST }}
           username: ${{ secrets.PLESK_USER }}
           password: ${{ secrets.PLESK_PASSWORD }}
-          port: 22
-          source: "standalone.zip,static.zip,public.zip"
-          target: "/var/www/vhosts/afkprofitlab.com/httpdocs"
+          protocol: ftps
+          local-dir: ./
+          server-dir: /
+          exclude: |
+            !public.zip
+            *
 
       - name: 🔧 SSH unzip + start PM2
         uses: appleboy/ssh-action@master
