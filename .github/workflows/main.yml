@@ -48,7 +48,7 @@ jobs:
           password: ${{ secrets.PLESK_PASSWORD }}
           protocol: ftps
           local-dir: ./
-          server-dir: httpdocs/
+          server-dir: /
           exclude: |
             !standalone.zip
             !static.zip
@@ -62,12 +62,7 @@ jobs:
           username: ${{ secrets.PLESK_USER }}
           password: ${{ secrets.PLESK_PASSWORD }}
           port: 22
-          request_pty: true        # ✅ เพิ่ม
-          debug: true              # ✅ เพิ่ม
           script: |
-            set -x
-            cd / || { echo "❌ cd failed"; exit 1; }
-
             echo "📂 list before unzip:"
             ls -la
 
