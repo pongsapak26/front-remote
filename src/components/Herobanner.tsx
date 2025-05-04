@@ -12,7 +12,7 @@ const Herobanner = () => {
         <div className="absolute top-0 left-0 w-full h-full bg-black opacity-80">
         <div className="flex items-center justify-center flex-col h-full">
           <div className="text-white text-4xl px-4">
-            Automate Your Success Powerful EA for Every Trader!
+            Automate Your Success Powerful EA for Every Trader! test
           </div>
           <div className="mt-5">
             {/* <Button type="button" label="Let Go" onClick={handleRegister} /> */}
