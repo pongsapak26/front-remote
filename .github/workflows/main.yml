@@ -29,7 +29,7 @@ jobs:
           password: ${{ secrets.PLESK_PASSWORD }}
           protocol: ftps
           local-dir: ./
-          server-dir: /httpdocs
+          server-dir: /httpdocs/
           exclude: |
             *
             !public.zip
