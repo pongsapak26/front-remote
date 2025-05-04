@@ -36,7 +36,8 @@ jobs:
           zip -r ../../standalone.zip .
 
       - name: 📦 Zip .next/static
-        run: zip -r static.zip static
+        run: zip -r ../static.zip static
+        working-directory: .next
 
       - name: 📦 Zip public/
         run: zip -r public.zip public
