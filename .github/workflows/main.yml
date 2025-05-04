@@ -14,60 +14,39 @@ jobs:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v3
 
-      - name: 📦 Zip public/
-        run: zip -r public.zip public
-
-      - name: 📂 Check that .zip files exist before FTP
-        run: |
-          ls -lh public.zip
-
-      - name: 🚀 Upload public.zip to /httpdocs via FTP
+      - name: 🚀 Upload public folder via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.PLESK_HOST }}
           username: ${{ secrets.PLESK_USER }}
           password: ${{ secrets.PLESK_PASSWORD }}
           protocol: ftps
-          local-dir: ./
-          server-dir: /httpdocs/
+          local-dir: ./public
+          server-dir: /httpdocs/public/
           exclude: |
             *
-            !public.zip
-            
-      - name: 🔧 SSH unzip public.zip in /httpdocs
+
+      - name: 🔄 Restart PM2 via SSH
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.PLESK_HOST }}
           username: ${{ secrets.PLESK_USER }}
           password: ${{ secrets.PLESK_PASSWORD }}
           port: 22
-          debug: true
           script: |
             set -e
             set -x
-            echo "👤 Whoami:"
-            whoami
-      
-            echo "📍 Current working directory:"
-            pwd
-      
-            echo "📂 Listing home directory:"
-            ls -lah ~
-      
-            echo "📦 Go to httpdocs..."
-            cd ~/httpdocs || { echo "❌ cd failed"; exit 1; }
-      
-            echo "📂 Files in httpdocs:"
-            ls -lh
-      
-            echo "📦 Unzipping public.zip..."
-            unzip -o public.zip || { echo "❌ unzip failed"; exit 1; }
-      
-            echo "🧹 Removing public.zip..."
-            rm -f public.zip
-      
-            echo "✅ Unzip completed"
+            cd ~/httpdocs/.next/standalone || { echo "❌ cd failed"; exit 1; }
 
+            if pm2 list | grep -q "afk-next-app"; then
+              echo "♻️ Restarting PM2 app..."
+              pm2 restart afk-next-app
+            else
+              echo "✨ Starting PM2 app..."
+              pm2 start server.js --name afk-next-app
+            fi
+
+            pm2 save
 
 
 
