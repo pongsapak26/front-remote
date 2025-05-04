@@ -22,7 +22,7 @@ export default function CouponPage() {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    fetch('/api/coupons')
+    fetch('/api/admin/coupons')
       .then(res => res.json())
       .then(setCoupons)
   }, [])

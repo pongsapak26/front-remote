@@ -35,7 +35,7 @@ export default function CouponFormModal({
 
   const handleSubmit = async () => {
     const payload = initialData ? { ...form, id: initialData.id } : form;
-    const res = await fetch("/api/coupons", {
+    const res = await fetch("/api/admin/coupons", {
       method: initialData ? "PUT" : "POST",
       body: JSON.stringify(payload),
     });
