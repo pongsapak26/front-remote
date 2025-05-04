@@ -44,26 +44,16 @@ jobs:
           debug: true
           script: |
             set -e
-            cd /
+            cd ~/deploy-temp
 
             echo "📂 Files in httpdocs before unzip:"
             ls -lh
 
-            echo "📦 Unzipping standalone.zip..."
-            unzip -o standalone.zip || { echo "❌ unzip standalone.zip failed"; exit 1; }
-
-            echo "📦 Unzipping static.zip..."
-            unzip -o static.zip || { echo "❌ unzip static.zip failed"; exit 1; }
-
             echo "📦 Unzipping public.zip..."
             unzip -o public.zip || { echo "❌ unzip public.zip failed"; exit 1; }
 
-            echo "📦 Moving static into .next/static"
-            mkdir -p .next
-            mv -v static .next/static || { echo "❌ move static failed"; exit 1; }
-
             echo "🧹 Cleaning up zip files..."
-            rm -f standalone.zip static.zip public.zip
+            rm -f public.zip
 
             echo "🚀 Starting PM2 app"
             cd .next/standalone || { echo "❌ cd .next/standalone failed"; exit 1; }
