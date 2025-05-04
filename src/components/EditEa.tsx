@@ -41,7 +41,7 @@ const EditEa = (props: EaKey) => {
           />
         </div>
         <div>
-          <label className="">Trailing trigger</label>
+          <label className="">Trailing Trigger</label>
           <Input
             type="text"
             name="trailing_fibo"
@@ -51,7 +51,7 @@ const EditEa = (props: EaKey) => {
           />
         </div>
         <div>
-          <label className="">Trailing rang</label>
+          <label className="">Trailing Range</label>
           <Input
             type="text"
             name="trailing_rang"
@@ -61,7 +61,7 @@ const EditEa = (props: EaKey) => {
           />
         </div>
         <div>
-          <label className="">Breakeven trigger</label>
+          <label className="">Breakeven Trigger</label>
           <Input
             type="text"
             name="breakeven_trigger"
@@ -73,7 +73,7 @@ const EditEa = (props: EaKey) => {
           />
         </div>
         <div>
-          <label className="">Breakeven rang</label>
+          <label className="">Breakeven Range</label>
           <Input
             type="text"
             name="breakeven_rang"

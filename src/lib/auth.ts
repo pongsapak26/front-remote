@@ -7,7 +7,19 @@ const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'your-secret-k
 export async function verifyUser(token: string) {
   try {
     const { payload } = await jwtVerify(token, secret);
+    
     return payload; // คืน payload กลับมา เช่น { id, email }
+  } catch (err) {
+    console.error('JWT verification failed', err);
+    return null;
+  }
+}
+export async function verifyAdmin(token: string) {
+  try {
+    const { payload } = await jwtVerify(token, secret);
+    console.log(payload.role);
+    
+    return payload.role
   } catch (err) {
     console.error('JWT verification failed', err);
     return null;

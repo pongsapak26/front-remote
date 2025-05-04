@@ -60,7 +60,7 @@ export async function PUT(req: NextRequest, { params }: any) {
         { status: 401 }
       );
     }
-
+    
     const eakey = await prisma.eakey.update({
       where: { id: numericId, userId: decoded.id as number },
       data: {
@@ -80,6 +80,7 @@ export async function PUT(req: NextRequest, { params }: any) {
         buylotlimit: Number(body.buylotlimit),
         statusBuy: body.statusBuy,
         statusSell: body.statusSell,
+        account: body.account,
         updatedAt: new Date(), // Timestamp update
       },
     });

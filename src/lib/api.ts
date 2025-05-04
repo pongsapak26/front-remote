@@ -204,3 +204,21 @@ export const geTransactionId = async () => {
   } finally {
   }
 };
+
+export async function validateCoupon(code: string, userId: number) {
+  const res = await fetch("/api/validate-coupon", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code, userId }),
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "เกิดข้อผิดพลาด");
+
+  return data as {
+    success: true;
+    discount: number;
+    type: "percent" | "flat";
+    message: string;
+  };
+}

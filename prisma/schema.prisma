@@ -10,7 +10,7 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "windows", "debian-openssl-3.0.x"]
 }
 
@@ -28,21 +28,22 @@ model User {
   // Relations
   transactions Transaction[]
   eakeys       Eakey[]
+  couponUsages CouponUsage[]
 
   @@map("user")
 }
 
 // Transaction model
 model Transaction {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   product     String
   price       Float
   description String
-  status      String   @default("pending")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  status      String    @default("pending")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
-  deleted     Boolean  @default(false)
+  deleted     Boolean   @default(false)
 
   // Relations
   userId Int
@@ -83,4 +84,50 @@ model Eakey {
   user   User @relation(fields: [userId], references: [id])
 
   @@map("eakey")
+}
+
+model EaProduct {
+  id         Int       @id @default(autoincrement())
+  eaName     String
+  priceStart Float
+  priceSub   Float
+  priceKey   Float
+  sku        String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+  deleted    Boolean   @default(false)
+
+  @@map("eaproduct")
+}
+
+model Coupon {
+  id        Int       @id @default(autoincrement())
+  name      String
+  code      String    @unique
+  discount  Float     // % หรือจำนวนเงินก็ได้
+  type      String    // เช่น "percent", "flat", etc.
+  count     Float     // จำนวนครั้งรวมสูงสุด (เช่น 100 ครั้ง)
+  onlyOnce  Boolean   @default(true) // ✅ ใช้ได้ 1 ครั้งต่อ user หรือไม่
+  exp       DateTime
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  deleted   Boolean   @default(false)
+
+  usages    CouponUsage[]  // ความสัมพันธ์กับประวัติการใช้
+
+  @@map("coupon")
+}
+
+model CouponUsage {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  couponId  Int
+  usedAt    DateTime  @default(now())
+
+  user      User      @relation(fields: [userId], references: [id])
+  coupon    Coupon    @relation(fields: [couponId], references: [id])
+
+  @@unique([userId, couponId]) // ✅ ไม่ให้ใช้ซ้ำหาก onlyOnce = true
 }

@@ -6,7 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "mgg": "npx prisma generate",
+    "mgdev": "npx prisma migrate dev",
+    "mgdep": "npx prisma migrate deploy"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -22,6 +25,7 @@
     "lucide-react": "^0.503.0",
     "next": "15.2.4",
     "react": "^19.0.0",
+    "react-data-table-component": "^7.7.0",
     "react-dom": "^19.0.0",
     "sweetalert2": "^11.17.2",
     "uuid": "^11.1.0"

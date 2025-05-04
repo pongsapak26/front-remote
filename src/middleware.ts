@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyUser } from './lib/auth';
+import { verifyAdmin, verifyUser } from './lib/auth';
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   if (pathname === '/' || pathname.startsWith('/login')) {
     return NextResponse.next();
@@ -14,6 +14,16 @@ export function middleware(req: NextRequest) {
   if (!token) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
+  const role:any = await verifyAdmin(token)
+  if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')){
+    if(role == 'admin'){
+      return NextResponse.next();
+    }else{
+      return NextResponse.redirect(new URL('/', req.url));
+
+    }
+  }
+
   const verify = verifyUser(token)
   if (!verify) {
     return NextResponse.redirect(new URL('/login', req.url));

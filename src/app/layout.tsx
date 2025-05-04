@@ -53,14 +53,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  
-
   return (
     <html lang="en">
       <body id="BGALL" className="min-h-screen bg-white dark:bg-black">
         <UserProvider>
           <Aos>
-            <Navbar>
+            <Navbar admin={false}>
               <div className="flex flex-col w-full pt-30 text-slate-900 dark:text-slate-100 bg-white dark:bg-black">
                 <div>{children}</div>
               </div>
