@@ -45,19 +45,20 @@ jobs:
           script: |
             set -e
             cd ~/deploy-temp
-
-            echo "📂 Files in httpdocs before unzip:"
+                    
+            echo "📂 Files in deploy-temp before unzip:"
             ls -lh
-
+                    
             echo "📦 Unzipping public.zip..."
+            unzip -l public.zip || echo "❗ can't preview public.zip"
             unzip -o public.zip || { echo "❌ unzip public.zip failed"; exit 1; }
-
-            echo "🧹 Cleaning up zip files..."
-            rm -f public.zip
-
+                    
+            echo "📁 After unzip:"
+            ls -lhR
+                    
             echo "🚀 Starting PM2 app"
             cd .next/standalone || { echo "❌ cd .next/standalone failed"; exit 1; }
-
+                    
             if pm2 list | grep -q "afk-next-app"; then
               echo "♻️ Restarting existing PM2 app..."
               pm2 restart afk-next-app
@@ -65,5 +66,5 @@ jobs:
               echo "✨ Starting new PM2 app..."
               pm2 start server.js --name afk-next-app
             fi
-
+                    
             pm2 save
