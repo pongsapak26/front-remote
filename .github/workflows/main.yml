@@ -55,7 +55,7 @@ jobs:
             ls -lah ~
       
             echo "📦 Go to httpdocs..."
-            cd /var/www/vhosts/afkprofitlab.com/httpdocs || { echo "❌ cd failed"; exit 1; }
+            cd ~/httpdocs || { echo "❌ cd failed"; exit 1; }
       
             echo "📂 Files in httpdocs:"
             ls -lh
