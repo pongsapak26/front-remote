@@ -33,6 +33,30 @@ jobs:
           exclude: |
             *
             !public.zip
+            
+      - name: 🔧 SSH unzip public.zip in /httpdocs
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PLESK_HOST }}
+          username: ${{ secrets.PLESK_USER }}
+          password: ${{ secrets.PLESK_PASSWORD }}
+          port: 22
+          script: |
+            set -e
+            echo "📦 Go to httpdocs..."
+            cd /var/www/vhosts/afkprofitlab.com/httpdocs
+      
+            echo "📂 Files before unzip:"
+            ls -lh
+      
+            echo "📦 Unzipping public.zip..."
+            unzip -o public.zip || { echo "❌ unzip failed"; exit 1; }
+      
+            echo "🧹 Removing public.zip..."
+            rm -f public.zip
+      
+            echo "✅ Unzip completed in /httpdocs"
+
 
 
 
