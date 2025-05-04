@@ -21,7 +21,32 @@ jobs:
         run: |
           ls -lh public.zip
 
-      - name: 🚀 Upload public.zip to /httpdocs via FTP
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: ⚙️ Prisma generate
+        run: npx prisma generate
+
+      - name: 🏗️ Build Next.js
+        run: npm run build
+
+      - name: 📦 Zip standalone content (no parent folder)
+        run: |
+          cd .next/standalone
+          zip -r ../../standalone.zip .
+
+      - name: 📦 Zip .next/static
+        run: zip -r static.zip static
+        working-directory: .next
+
+      - name: 📦 Zip public/
+        run: zip -r public.zip public
+
+      - name: 📂 Check that .zip files exist before FTP
+        run: |
+          ls -lh public.zip
+
+      - name: 🚀 Upload .zip files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.PLESK_HOST }}
@@ -29,23 +54,12 @@ jobs:
           password: ${{ secrets.PLESK_PASSWORD }}
           protocol: ftps
           local-dir: ./
-          server-dir: /httpdocs/
+          server-dir: /
           exclude: |
-            *
+            !standalone.zip
+            !static.zip
             !public.zip
+            *
 
-      - name: 🔧 SSH unzip public.zip in /httpdocs
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.PLESK_HOST }}
-          username: ${{ secrets.PLESK_USER }}
-          password: ${{ secrets.PLESK_PASSWORD }}
-          port: 22
-          debug: true
-          script: |
-            cd /httpdocs
-            ls -lh
-            unzip -o public.zip
-            rm -f public.zip
 
 
