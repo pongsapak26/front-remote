@@ -41,12 +41,23 @@ jobs:
           username: ${{ secrets.PLESK_USER }}
           password: ${{ secrets.PLESK_PASSWORD }}
           port: 22
+          debug: true
           script: |
             set -e
-            echo "📦 Go to httpdocs..."
-            cd /var/www/vhosts/afkprofitlab.com/httpdocs
       
-            echo "📂 Files before unzip:"
+            echo "👤 Whoami:"
+            whoami
+      
+            echo "📍 Current working directory:"
+            pwd
+      
+            echo "📂 Listing home directory:"
+            ls -lah ~
+      
+            echo "📦 Go to httpdocs..."
+            cd /var/www/vhosts/afkprofitlab.com/httpdocs || { echo "❌ cd failed"; exit 1; }
+      
+            echo "📂 Files in httpdocs:"
             ls -lh
       
             echo "📦 Unzipping public.zip..."
@@ -55,7 +66,7 @@ jobs:
             echo "🧹 Removing public.zip..."
             rm -f public.zip
       
-            echo "✅ Unzip completed in /httpdocs"
+            echo "✅ Unzip completed"
 
 
 
