@@ -18,7 +18,7 @@ jobs:
         run: zip -r public.zip public
 
       - name: 🚀 Upload .zip files via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.PLESK_HOST }}
           username: ${{ secrets.PLESK_USER }}
@@ -28,6 +28,7 @@ jobs:
           server-dir: ./
           exclude: |
             !public.zip
+          passive: true # เปิดใช้งานโหมด Passive
 
       - name: 🔧 SSH unzip + start PM2
         uses: appleboy/ssh-action@master
