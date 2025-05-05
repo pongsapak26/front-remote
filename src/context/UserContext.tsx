@@ -11,6 +11,10 @@ interface UserContextType {
     price: number;
     product: string;
   };
+  eatype:string;
+  seteatype: React.Dispatch<
+    React.SetStateAction<string>
+  >;
   setUser: React.Dispatch<
     React.SetStateAction<{
       id: string;
@@ -32,12 +36,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     price: 0,
     product: "",
   });
+  const [eatype, seteatype] = useState("");
   const [user, setUser] = useState({
     id: Cookies.get("userId") || "",
     username: Cookies.get("username") || "",
   });
   return (
-    <UserContext.Provider value={{ cart, setCart, setUser, user }}>
+    <UserContext.Provider value={{ cart, setCart, setUser, user, eatype, seteatype }}>
       {children}
     </UserContext.Provider>
   );

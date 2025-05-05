@@ -35,9 +35,9 @@ export default function ProductPage() {
 
   const columns = [
     { name: 'ชื่อ EA', selector: (row: EaProduct) => row.eaName },
-    { name: 'ราคาเริ่มต้น', selector: (row: EaProduct) => row.priceStart },
-    { name: 'ราคาต่อเดือน', selector: (row: EaProduct) => row.priceSub },
-    { name: 'ราคาซื้อขาด', selector: (row: EaProduct) => row.priceKey },
+    { name: 'ราคาขาย', selector: (row: EaProduct) => row.priceStart },
+    { name: 'ราคาต่ออายุ', selector: (row: EaProduct) => row.priceSub },
+    { name: 'ราคา Key', selector: (row: EaProduct) => row.priceKey },
     { name: 'SKU', selector: (row: EaProduct) => row.sku },
     {
       name: 'จัดการ',
@@ -56,9 +56,7 @@ export default function ProductPage() {
         <h1 className="text-xl font-bold">จัดการสินค้า EA</h1>
         <button onClick={() => { setSelected(null); setOpen(true) }}>➕ เพิ่มสินค้า</button>
       </div>
-
       <DataTable columns={columns} data={products} pagination />
-
       <FormModal
         open={open}
         onClose={() => setOpen(false)}

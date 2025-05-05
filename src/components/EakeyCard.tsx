@@ -9,6 +9,7 @@ import {
   EllipsisVertical,
 } from "lucide-react";
 import TopRightAlert from "./TopRightAlert";
+import { useUserContext } from "@/context/UserContext";
 
 export type ResEaKey = {
   trailingfibo: string;
@@ -62,7 +63,7 @@ const EakeyCard = ({
   const router = useRouter();
   const [detail, setdetail] = useState(false);
   const [showalert, setshowalert] = useState(false);
-
+  const { seteatype } = useUserContext();
   const handleNavigate = (slug: string) => {
     router.push(`/profile/${slug}`); // นำทางไปยังหน้า /profile/test
   };
@@ -197,6 +198,7 @@ const EakeyCard = ({
               <div
                 className="w-9 h-9 p-2 shadow-lg rounded-full flex flex-col justify-center items-center cursor-pointer transition-colors hover:bg-slate-200 dark:bg-slate-600 hover:dark:bg-slate-700"
                 onClick={() => {
+                  seteatype(type)
                   router.push(`/order`); // Redirect to order page
                   // Handle save logic here
                 }}

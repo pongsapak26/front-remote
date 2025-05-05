@@ -7,7 +7,7 @@ export async function middleware(req: NextRequest) {
   if (pathname === '/' || pathname.startsWith('/login')) {
     return NextResponse.next();
   }
-  if (pathname === '/register' || pathname.startsWith('/login') || pathname === '/api/forex') {
+  if (pathname === '/register' || pathname.startsWith('/login') || pathname.startsWith('/product') || pathname.startsWith('/order') || pathname === '/api/forex') {
     return NextResponse.next();
   }
   const token = req.cookies.get("token")?.value || '';

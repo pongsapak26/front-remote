@@ -5,7 +5,6 @@ import { authenticateRequest } from "@/lib/auth";
 
 export async function GET(req: Request) {
   try {
-    // ดึง token จาก cookie
     const id = req.url.split("/").pop(); // ดึง id จาก URL
     if (!id) {
       return NextResponse.json(

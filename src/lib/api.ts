@@ -226,3 +226,13 @@ export async function validateCoupon(code: string, userId: number) {
     message: string;
   };
 }
+
+export const allProduct = async () => {
+  try {
+    const response = await axios.get(`/api/products`);
+    return response.data; // ส่งค่ากลับเป็นข้อมูล Eakey
+  } catch (error) {
+    throw new Error("Failed to get Eakey" + (error as Error).message);
+  } finally {
+  }
+}

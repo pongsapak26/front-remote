@@ -8,11 +8,13 @@ import { createEakey, getEakey } from "@/lib/api";
 import { showAlert } from "@/lib/sweetAlert";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useUserContext } from "@/context/UserContext";
 
 const ProfilePage = () => {
   const [product, setproduct] = useState(false);
   const [eakey, seteakey] = useState<ResEaKey[]>([]); // Initialize eakey state
   const [loading, setLoading] = useState(false);
+  const { seteatype } = useUserContext();
   const router = useRouter();
   useEffect(() => {
     const fetchEakey = async () => {
@@ -32,6 +34,7 @@ const ProfilePage = () => {
       const response = await createEakey(type);
       if (response.message === "Key limit reached") {
         showAlert("Error", response.message, "error");
+        seteatype(type)
         router.push('/order')
       }
       if (response.message === "EA Add successfully") {
