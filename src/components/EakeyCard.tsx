@@ -7,6 +7,7 @@ import {
   ChevronUp,
   Copy,
   EllipsisVertical,
+  FileDown,
 } from "lucide-react";
 import TopRightAlert from "./TopRightAlert";
 import { useUserContext } from "@/context/UserContext";
@@ -67,7 +68,13 @@ const EakeyCard = ({
   const handleNavigate = (slug: string) => {
     router.push(`/profile/${slug}`); // นำทางไปยังหน้า /profile/test
   };
-
+  const handleDownload = (filename: string) => {
+    // สำหรับไฟล์ที่อยู่ใน public folder
+    window.location.href = `/files/${filename}.ex5`;
+  
+    // หรือถ้าไฟล์มาจาก API route
+    // window.location.href = `/api/download/${filename}`;
+  };
   // ฟังก์ชันสำหรับคัดลอกข้อมูลไปยังคลิปบอร์ด
   const handleCopyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(
@@ -196,7 +203,7 @@ const EakeyCard = ({
           <div className="flex gap-2 w-full justify-around">
             <div>
               <div
-                className="w-9 h-9 p-2 shadow-lg rounded-full flex flex-col justify-center items-center cursor-pointer transition-colors hover:bg-slate-200 dark:bg-slate-600 hover:dark:bg-slate-700"
+                className="w-9 h-9 p-2 mx-auto shadow-lg rounded-full flex flex-col justify-center items-center cursor-pointer transition-colors hover:bg-slate-200 dark:bg-slate-600 hover:dark:bg-slate-700"
                 onClick={() => {
                   seteatype(type)
                   router.push(`/order`); // Redirect to order page
@@ -205,17 +212,27 @@ const EakeyCard = ({
               >
                 <CalendarCheck className="w-7 h-7" />
               </div>
-              <h3 className="mt-3">Sub</h3>
+              <h3 className="mt-3 text-center">Sub</h3>
             </div>
             <div>
               <div
-                className="w-9 h-9 p-2 shadow-lg rounded-full flex flex-col justify-center items-center cursor-pointer transition-colors hover:bg-slate-200 dark:bg-slate-600  hover:dark:bg-slate-700"
+                className="w-9 h-9 p-2 mx-auto shadow-lg rounded-full flex flex-col justify-center items-center cursor-pointer transition-colors hover:bg-slate-200 dark:bg-slate-600  hover:dark:bg-slate-700"
+                onClick={() => handleDownload(type)}
+              >
+                <FileDown className="w-7 h-7" />
+              </div>
+              <h3 className="mt-3 text-center">Download</h3>
+            </div>
+            <div>
+              <div
+                className="w-9 h-9 p-2 mx-auto shadow-lg rounded-full flex flex-col justify-center items-center cursor-pointer transition-colors hover:bg-slate-200 dark:bg-slate-600  hover:dark:bg-slate-700"
                 onClick={() => handleNavigate(id)}
               >
                 <EllipsisVertical className="w-7 h-7" />
               </div>
-              <h3 className="mt-3">Edit</h3>
+              <h3 className="mt-3 text-center">Edit</h3>
             </div>
+
           </div>
         </div>
       </div>
