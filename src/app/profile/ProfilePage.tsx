@@ -35,7 +35,7 @@ const ProfilePage = () => {
       if (response.message === "Key limit reached") {
         showAlert("Error", response.message, "error");
         seteatype(type)
-        router.push('/order')
+        router.push('/product')
       }
       if (response.message === "EA Add successfully") {
         showAlert("Success", response.message, "success");
