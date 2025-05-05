@@ -31,7 +31,6 @@ const ProfilePage = () => {
     try {
       const response = await createEakey(type);
       if (response.message === "Key limit reached") {
-        console.log(response.data);
         showAlert("Error", response.message, "error");
         router.push('/order')
       }

@@ -114,7 +114,7 @@ export const getUser = async () => {
 export const createEakey = async (type: string) => {
   try {
     const response = await axios.post(`/api/eakey/add`, {
-      eaName: `Eakey ${type}`,
+      eaName: `${type == 'sl' ? 'SL Guard' : 'RSI'}`,
       type: type,
     });
 
