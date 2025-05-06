@@ -95,11 +95,17 @@ export default function Page() {
         <h1 className="text-3xl font-bold mb-8 text-center">ชำระเงิน</h1>
         <div {...aosall} className="grid grid-cols-1 gap-4">
           <div className="bg-slate-200 dark:bg-slate-600 p-4 w-fit mx-auto">
+            <div className="bg-white p-5">
+            <img
+              src={`/images/thaiQR_logo.jpg`}
+              className="w-72 h-auto mx-auto mb-1"
+            />
             <img
               src={`https://promptpay.io/1103000131521/${discountedPrice}`}
               className="w-60 h-60 mx-auto"
               alt=""
             />
+            </div>
             <div className="mt-5 space-y-1 text-gray-400">
               <p>คำสั่งซื้อ: {cart.product}</p>
               <p>ราคาเต็ม: {cart.price} Baht</p>
