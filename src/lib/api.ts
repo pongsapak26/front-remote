@@ -31,6 +31,9 @@ export const login = async (
   setloading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   try {
+    if(email == '' || password == ''){
+      throw new Error("กรอกข้อมูลไม่ครบ");
+    }
     setloading(true);
     const response: LoginResponse = await axios.post(`/api/user/login`, {
       email,
@@ -60,12 +63,16 @@ export const register = async (
   setloading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   try {
+    if(email == '' || password == '' || username){
+      throw new Error("กรอกข้อมูลไม่ครบ");
+    }
     setloading(true);
     const response: RegisterResponse = await axios.post(`/api/user/register`, {
       email,
       password,
       username,
     });
+
     if (response.data) {
       Cookies.set("token", response.data.token, { expires: 7 });
       Cookies.set("userId", response.data.user.id, { expires: 7 });

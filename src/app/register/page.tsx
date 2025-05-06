@@ -52,6 +52,7 @@ const Register = () => {
         </div>
         <div className="mb-1">
           <Input
+            required={true}
             type="text"
             name="username"
             placeholder="Username"
@@ -61,6 +62,7 @@ const Register = () => {
         </div>
         <div className="mb-1">
           <Input
+            required={true}
             type="email"
             name="email"
             placeholder="E-mail"
@@ -70,6 +72,7 @@ const Register = () => {
         </div>
         <div className="mb-1 relative">
           <Input
+            required={true}
             type={showPassword ? "text" : "password"} // เปลี่ยน type ระหว่าง text และ password
             name="password"
             placeholder="Password"

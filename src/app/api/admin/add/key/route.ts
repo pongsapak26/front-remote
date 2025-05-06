@@ -22,12 +22,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    if (user.keylimit <= 0) {
-      return NextResponse.json(
-        { message: "Key limit reached" },
-        { status: 201 }
-      );
-    }
 
     const eaapiKey = generateRandomText(10);
 
