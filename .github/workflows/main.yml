@@ -25,6 +25,12 @@ jobs:
       - name: ⚙️ Prisma generate
         run: npx prisma generate
 
+      - name: 🧪 Create .env file
+        run: |
+          echo "NEXT_PUBLIC_DISCORD=${{ secrets.NEXT_PUBLIC_DISCORD }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+
       - name: 🏗️ Build Next.js
         run: npm run build
 

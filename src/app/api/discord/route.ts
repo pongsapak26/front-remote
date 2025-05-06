@@ -5,8 +5,7 @@ import prisma from "@/lib/prisma";
 import { authenticateRequest } from "@/lib/auth";
 
 // แทนที่ด้วย Webhook URL จริงของคุณ
-const DISCORD_WEBHOOK_URL =
-  "https://discord.com/api/webhooks/1357573495579742412/kG_HAW2irWNabCyY7xsXJdxz3Uu6fD22Rq5n0GIxZwWo4o9Nxy6_Rs_zZAzGWfQAPBv0";
+const DISCORD_WEBHOOK_URL = process.env.NEXT_PUBLIC_DISCORD || '';
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
