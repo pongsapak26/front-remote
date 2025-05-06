@@ -3,7 +3,7 @@
 
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { Home, Package, Ticket, Settings } from 'lucide-react'
+import { Home, Package, Ticket, Settings, BadgeDollarSign } from 'lucide-react'
 
 export default function Aside() {
   const pathname = usePathname()
@@ -11,6 +11,7 @@ export default function Aside() {
   const menu = [
     { name: 'หน้าหลัก', href: '/admin', icon: Home },
     { name: 'จัดการสินค้า', href: '/admin/products', icon: Package },
+    { name: 'จัดการออเดอร์', href: '/admin/transaction', icon: BadgeDollarSign },
     { name: 'จัดการคูปอง', href: '/admin/coupons', icon: Ticket },
     { name: 'ประวัติการใช้คูปอง', href: '/admin/coupon-usage', icon: Ticket },
     { name: 'ตั้งค่า', href: '/admin/settings', icon: Settings },

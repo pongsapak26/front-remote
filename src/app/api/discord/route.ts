@@ -26,7 +26,6 @@ export async function POST(req: NextRequest) {
   }
 
   try {
- 
     // แปลง File เป็น Buffer
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
@@ -34,14 +33,19 @@ export async function POST(req: NextRequest) {
     const price = Number(formData.get("price") as string);
     const username = formData.get("username");
     const userId = formData.get("userId");
+    const typeproduct = formData.get("description") as string;
     const couponId = formData.get("couponId");
     // สร้าง FormData สำหรับส่งเข้า Discord
-    await prisma.couponUsage.create({
-      data: {
-        userId: Number(userId),
-        couponId: Number(couponId),
-      },
-    });
+
+    if (couponId !== "0") {
+      await prisma.couponUsage.create({
+        data: {
+          userId: Number(userId),
+          couponId: Number(couponId),
+        },
+      });
+    }
+
     const discordForm = new FormData();
     const description = `ลูกค้า User ${username} \nจ่ายเงิน เรียบร้อยแล้ว! ${price} บาท \nแพ็คเกจ ${product}`;
 
@@ -64,7 +68,7 @@ export async function POST(req: NextRequest) {
       data: {
         product,
         price,
-        description,
+        description: typeproduct,
         status: "pending", // ปรับตาม logic
         user: {
           connect: { id: decoded.id as number },

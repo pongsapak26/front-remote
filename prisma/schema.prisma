@@ -74,6 +74,7 @@ model Eakey {
   selllot          Float     @default(0.01)
   exp              DateTime  @default(now())
   type             String?
+  mainkey          String?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
   deletedAt        DateTime?

@@ -8,8 +8,7 @@ export async function POST(req: NextRequest) {
 
     if (!code || !userId) {
       return NextResponse.json({ message: "ข้อมูลไม่ครบ" }, { status: 400 });
-    }
-
+    }    
     const coupon = await prisma.coupon.findUnique({
       where: { code },
       include: { usages: true },

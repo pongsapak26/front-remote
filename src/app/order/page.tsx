@@ -84,7 +84,7 @@ export default function Page() {
                 >
                   <div className="flex justify-between">
                     <p className="mb-4 text-slate-400">ระยะเวลา</p>
-                    <p className="mb-4 ">30 วัน</p>
+                    <p className="mb-4 ">30 Day</p>
                   </div>
                   <div className="flex justify-between">
                     <p className="mb-4 text-slate-400">ราคา</p>

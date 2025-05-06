@@ -14,15 +14,15 @@ export async function middleware(req: NextRequest) {
   if (!token) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
-  const role:any = await verifyAdmin(token)
-  if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')){
-    if(role == 'admin'){
-      return NextResponse.next();
-    }else{
-      return NextResponse.redirect(new URL('/', req.url));
+  // const role:any = await verifyAdmin(token)
+  // if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')){
+  //   if(role == 'admin'){
+  //     return NextResponse.next();
+  //   }else{
+  //     return NextResponse.redirect(new URL('/', req.url));
 
-    }
-  }
+  //   }
+  // }
   const verify = verifyUser(token)
   if (!verify) {
     return NextResponse.redirect(new URL('/login', req.url));
