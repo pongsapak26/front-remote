@@ -30,7 +30,7 @@ const Register = () => {
         router.push("/profile"); // Redirect to login page after successful registration
       }
     } catch (error) {
-      showAlert("Error", "Registration failed" + error, "error");
+      showAlert("Error", "" + error, "error");
     }
   };
 

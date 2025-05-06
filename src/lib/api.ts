@@ -50,7 +50,7 @@ export const login = async (
     }
   } catch (error) {
     console.log(error);
-    throw new Error("Login failed" + (error as Error).message);
+    throw new Error((error as Error).message);
   } finally {
     setloading(false); // หยุดโหลด
   }
@@ -80,7 +80,7 @@ export const register = async (
       return true; // ส่งค่ากลับไปยัง component ที่เรียกใช้
     }
   } catch (error) {
-    throw new Error("Registration failed" + (error as Error).message);
+    throw new Error( (error as Error).message);
   } finally {
     setloading(false); // หยุดโหลด
   }

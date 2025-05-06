@@ -36,7 +36,7 @@ const Login = () => {
         router.push("/profile"); // Redirect to profile page after successful login
       }
     } catch (error) {
-      showAlert("Error", "Login failed" + error, "error");
+      showAlert("Error", "" + error, "error");
     }
   };
 
