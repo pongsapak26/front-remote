@@ -23,7 +23,6 @@ export async function middleware(req: NextRequest) {
 
     }
   }
-
   const verify = verifyUser(token)
   if (!verify) {
     return NextResponse.redirect(new URL('/login', req.url));

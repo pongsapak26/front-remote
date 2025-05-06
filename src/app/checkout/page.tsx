@@ -101,6 +101,10 @@ export default function Page() {
               className="w-72 h-auto mx-auto mb-1"
             />
             <img
+              src={`/images/promptPay_logo.jpg`}
+              className="w-32 h-auto mx-auto mb-1"
+            />
+            <img
               src={`https://promptpay.io/1103000131521/${discountedPrice}`}
               className="w-60 h-60 mx-auto"
               alt=""
