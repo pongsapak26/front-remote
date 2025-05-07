@@ -1,33 +1,40 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextRequest, NextResponse } from 'next/server';
-import { verifyAdmin, verifyUser } from './lib/auth';
+import { NextRequest, NextResponse } from "next/server";
+import { verifyAdmin, verifyUser } from "./lib/auth";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (pathname === '/' || pathname.startsWith('/login')) {
+  if (pathname === "/" || pathname.startsWith("/login")) {
     return NextResponse.next();
   }
-  if (pathname === '/register' || pathname.startsWith('/login') || pathname.startsWith('/product') || pathname.startsWith('/order') || pathname === '/api/forex') {
+  if (
+    pathname === "/register" ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/product") ||
+    pathname.startsWith("/order") ||
+    pathname === "/api/forex" ||
+    pathname === "/terms-and-conditions" ||
+    pathname === "/privacy-policy"
+  ) {
     return NextResponse.next();
   }
-  const token = req.cookies.get("token")?.value || '';
+  const token = req.cookies.get("token")?.value || "";
   if (!token) {
-    return NextResponse.redirect(new URL('/login', req.url));
+    return NextResponse.redirect(new URL("/login", req.url));
   }
-  const role:any = await verifyAdmin(token)
-  if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')){
-    if(role == 'admin'){
+  const role: any = await verifyAdmin(token);
+  if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
+    if (role == "admin") {
       return NextResponse.next();
-    }else{
-      return NextResponse.redirect(new URL('/', req.url));
-
+    } else {
+      return NextResponse.redirect(new URL("/", req.url));
     }
   }
 
-  const verify = verifyUser(token)
+  const verify = verifyUser(token);
   if (!verify) {
-    return NextResponse.redirect(new URL('/login', req.url));
-  }else {
+    return NextResponse.redirect(new URL("/login", req.url));
+  } else {
     return NextResponse.next();
   }
 }
@@ -42,6 +49,6 @@ export const config = {
      *   - /favicon.ico
      *   - /images/, /fonts/, etc.
      */
-    '/((?!_next/static|_next/image|favicon.ico|images|fonts|api).*)',
+    "/((?!_next/static|_next/image|favicon.ico|images|fonts|api).*)",
   ],
-}
+};
