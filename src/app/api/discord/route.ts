@@ -5,7 +5,7 @@ import prisma from "@/lib/prisma";
 import { authenticateRequest } from "@/lib/auth";
 
 // แทนที่ด้วย Webhook URL จริงของคุณ
-const DISCORD_WEBHOOK_URL = process.env.NEXT_PUBLIC_DISCORD || '';
+const DISCORD_WEBHOOK_URL = process.env.NEXT_PUBLIC_DISCORD || "";
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
@@ -37,10 +37,20 @@ export async function POST(req: NextRequest) {
     // สร้าง FormData สำหรับส่งเข้า Discord
 
     if (couponId !== "0") {
-      await prisma.couponUsage.create({
+      await prisma.couponUse.create({
         data: {
           userId: Number(userId),
           couponId: Number(couponId),
+        },
+      });
+      await prisma.coupon.update({
+        where: {
+          id: Number(couponId),
+        },
+        data: {
+          count: {
+            decrement: 1, // ลดค่าของ count ลง 1
+          },
         },
       });
     }

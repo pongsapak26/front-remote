@@ -2,7 +2,6 @@
 import { ResEaKey } from "@/components/EakeyCard";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { removeUser } from "./func";
 import { showAlert } from "./sweetAlert";
 interface LoginResponse {
   data: {
@@ -63,7 +62,7 @@ export const register = async (
   setloading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   try {
-    if(email == '' || password == '' || username){
+    if(email == '' || password == '' || username == ''){
       throw new Error("กรอกข้อมูลไม่ครบ");
     }
     setloading(true);
@@ -167,7 +166,6 @@ export const getEakey = async () => {
     const response = await axios.get(`/api/eakey`);
     return response.data; // ส่งค่ากลับเป็นข้อมูล Eakey
   } catch (error) {
-    removeUser(); // ลบ token และ username
     throw new Error("Failed to get Eakey" + (error as Error).message);
   }
 };
@@ -207,7 +205,7 @@ export const imageToDiscord = async (
   }
 };
 
-export const geTransactionId = async () => {
+export const getTransactionId = async () => {
   try {
     const response = await axios.get(`/api/transaction`);
     console.log(response);

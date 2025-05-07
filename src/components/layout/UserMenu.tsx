@@ -3,7 +3,16 @@
 import { useUserContext } from "@/context/UserContext";
 import { logout } from "@/lib/api";
 import { showAlert } from "@/lib/sweetAlert";
-import { Moon, Sun, User, UserPen } from "lucide-react";
+import {
+  BadgeDollarSign,
+  Cookie,
+  LogOut,
+  Moon,
+  ReceiptText,
+  Sun,
+  User,
+  UserPen,
+} from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
@@ -78,13 +87,19 @@ export default function UserMenu() {
               href="/profile"
               className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
-              Profile
+              <div className="flex items-center">
+                <UserPen className="w-4 h-4 my-auto" />
+                <span className="ml-2">Profile</span>
+              </div>
             </Link>
             <Link
               href="/transaction"
               className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
-              Transaction
+              <div className="flex items-center">
+                <BadgeDollarSign className="w-4 h-4 my-auto" />
+                <span className="ml-2">Transaction</span>
+              </div>
             </Link>
 
             <div
@@ -93,7 +108,10 @@ export default function UserMenu() {
               }}
               className="cursor-pointer block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
-              Logout
+              <div className="flex items-center">
+                <LogOut className="w-4 h-4 my-auto" />
+                <span className="ml-2">Logout</span>
+              </div>
             </div>
           </>
         ) : (
@@ -103,7 +121,7 @@ export default function UserMenu() {
               className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
               onClick={() => setOpen(!open)}
             >
-              <div className="flex">
+              <div className="flex items-center">
                 <User className="w-4 h-4 my-auto" />
                 <div className="ml-2">Login</div>
               </div>
@@ -113,7 +131,7 @@ export default function UserMenu() {
               className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
               onClick={() => setOpen(!open)}
             >
-              <div className="flex">
+              <div className="flex items-center">
                 <UserPen className="w-4 h-4 my-auto" />
                 <div className="ml-2">Register</div>
               </div>
@@ -124,19 +142,29 @@ export default function UserMenu() {
           href="/product"
           className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
         >
-          Product
+          <div className="flex items-center">
+            <UserPen className="w-4 h-4 my-auto" />
+            <div className="ml-2">Product</div>
+          </div>
         </Link>
         <Link
           href="/terms-and-conditions"
           className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
         >
-          Terms And Conditions
+          <div className="flex items-center">
+            <ReceiptText className="w-4 h-4 my-auto" />
+            <div className="ml-2">Terms And Conditions</div>
+          </div>
         </Link>
+
         <Link
           href="/privacy-policy"
           className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
         >
-          Privacy Policy
+          <div className="flex items-center">
+            <Cookie className="w-4 h-4 my-auto" />
+            <div className="ml-2">Privacy Policy</div>
+          </div>
         </Link>
         <div
           onClick={() => {

@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
     }    
     const coupon = await prisma.coupon.findUnique({
       where: { code },
-      include: { usages: true },
+      include: { CouponUse: true },
     });
 
     if (!coupon || coupon.deleted) {
@@ -22,17 +22,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "คูปองหมดอายุแล้ว" }, { status: 400 });
     }
 
-    if (coupon.count > 0 && coupon.usages.length >= coupon.count) {
+    if (coupon.count > 0 && coupon.CouponUse.length >= coupon.count) {
       return NextResponse.json({ message: "คูปองถูกใช้ครบจำนวนแล้ว" }, { status: 400 });
     }
 
     if (coupon.onlyOnce) {
-      const alreadyUsed = await prisma.couponUsage.findUnique({
+      const alreadyUsed = await prisma.couponUse.findFirst({
         where: {
-          userId_couponId: {
-            userId: Number(userId),
-            couponId: coupon.id,
-          },
+          userId: Number(userId),
+          couponId: coupon.id,
         },
       });
 
@@ -41,8 +39,8 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // ✅ บันทึกการใช้คูปอง
-    // await prisma.couponUsage.create({
+    // // ✅ บันทึกการใช้คูปอง
+    // await prisma.couponUse.create({
     //   data: {
     //     userId:Number(userId),
     //     couponId: coupon.id,

@@ -44,7 +44,7 @@ export default function Page() {
       setCouponCodId(data.id);
       showAlert("สำเร็จ", `ใช้โค้ดสำเร็จ ลดราคาแล้ว`, "success");
     } catch (error: any) {
-      setCouponCodId("0")
+      setCouponCodId("0");
       showAlert("ผิดพลาด", error.message || "โค้ดไม่ถูกต้อง", "error");
     }
   };
@@ -59,13 +59,17 @@ export default function Page() {
 
   const handleUpload = async () => {
     setLoading(true);
-    if (!selectedFile) {
+    const file = new File(["mock content"], "mock-file.txt", {
+      type: "text/plain",
+    });
+    
+    if (!selectedFile && discountedPrice > 0) {
       alert("Please select a file before uploading.");
       return;
     }
     try {
       const response = await imageToDiscord(
-        selectedFile,
+        selectedFile || file,
         discountedPrice.toString(),
         user.username,
         cart.product,
@@ -98,19 +102,19 @@ export default function Page() {
         <div {...aosall} className="grid grid-cols-1 gap-4">
           <div className="bg-slate-200 dark:bg-slate-600 p-4 w-fit mx-auto">
             <div className="bg-white p-5">
-            <img
-              src={`/images/thaiQR_logo.jpg`}
-              className="w-72 h-auto mx-auto mb-1"
-            />
-            <img
-              src={`/images/promptPay_logo.jpg`}
-              className="w-32 h-auto mx-auto mb-1"
-            />
-            <img
-              src={`https://promptpay.io/1103000131521/${discountedPrice}`}
-              className="w-60 h-60 mx-auto"
-              alt=""
-            />
+              <img
+                src={`/images/thaiQR_logo.jpg`}
+                className="w-72 h-auto mx-auto mb-1"
+              />
+              <img
+                src={`/images/promptPay_logo.jpg`}
+                className="w-32 h-auto mx-auto mb-1"
+              />
+              <img
+                src={`https://promptpay.io/1103000131521/${discountedPrice}`}
+                className="w-60 h-60 mx-auto"
+                alt=""
+              />
             </div>
             <div className="mt-5 space-y-1 text-gray-400">
               <p>คำสั่งซื้อ: {cart.product}</p>
@@ -139,26 +143,32 @@ export default function Page() {
               </button>
             </div>
 
-            <p className="text-gray-400 mt-4">อัปโหลดสลิปโอนเงิน</p>
-            <div className="flex flex-col items-center">
-              <label
-                htmlFor="file-upload"
-                className="cursor-pointer bg-slate-700 hover:bg-slate-800 text-white py-2 px-4 mt-4"
-              >
-                เลือกสลิป
-              </label>
-              <input
-                id="file-upload"
-                type="file"
-                className="hidden"
-                onChange={handleFileChange}
-              />
-              {selectedFile && (
-                <p className="text-gray-400 mt-4">
-                  Selected: {selectedFile.name}
-                </p>
-              )}
-            </div>
+            {discountedPrice <= 0 ? (
+              ""
+            ) : (
+              <>
+                <p className="text-gray-400 mt-4">อัปโหลดสลิปโอนเงิน</p>
+                <div className="flex flex-col items-center">
+                  <label
+                    htmlFor="file-upload"
+                    className="cursor-pointer bg-slate-700 hover:bg-slate-800 text-white py-2 px-4 mt-4"
+                  >
+                    เลือกสลิป
+                  </label>
+                  <input
+                    id="file-upload"
+                    type="file"
+                    className="hidden"
+                    onChange={handleFileChange}
+                  />
+                  {selectedFile && (
+                    <p className="text-gray-400 mt-4">
+                      Selected: {selectedFile.name}
+                    </p>
+                  )}
+                </div>
+              </>
+            )}
 
             <button
               onClick={handleUpload}

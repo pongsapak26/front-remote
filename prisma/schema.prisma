@@ -28,7 +28,7 @@ model User {
   // Relations
   transactions Transaction[]
   eakeys       Eakey[]
-  couponUsages CouponUsage[]
+  CouponUse CouponUse[]
 
   @@map("user")
 }
@@ -116,12 +116,12 @@ model Coupon {
   deletedAt DateTime?
   deleted   Boolean   @default(false)
 
-  usages    CouponUsage[]  // ความสัมพันธ์กับประวัติการใช้
+  CouponUse CouponUse[]
 
   @@map("coupon")
 }
 
-model CouponUsage {
+model CouponUse {
   id        Int       @id @default(autoincrement())
   userId    Int
   couponId  Int
@@ -129,6 +129,4 @@ model CouponUsage {
 
   user      User      @relation(fields: [userId], references: [id])
   coupon    Coupon    @relation(fields: [couponId], references: [id])
-
-  @@unique([userId, couponId]) // ✅ ไม่ให้ใช้ซ้ำหาก onlyOnce = true
 }

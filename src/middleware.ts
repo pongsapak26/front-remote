@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { verifyAdmin, verifyUser } from "./lib/auth";
+import Cookies from "js-cookie";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -18,10 +19,15 @@ export async function middleware(req: NextRequest) {
   ) {
     return NextResponse.next();
   }
+  
   const token = req.cookies.get("token")?.value || "";
   if (!token) {
+    Cookies.remove("token"); // Remove token from cookies
+    Cookies.remove("username"); // Remove token from cookies
+    Cookies.remove("userId"); // Remove token from cookies
     return NextResponse.redirect(new URL("/login", req.url));
   }
+
   const role: any = await verifyAdmin(token);
   if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin")) {
     if (role == "admin") {

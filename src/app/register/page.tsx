@@ -27,7 +27,7 @@ const Register = () => {
       const data = await register(email, password, username, setLoading);
       if (data) {
         showAlert("Success", "Registration successful!", "success");
-        router.push("/profile"); // Redirect to login page after successful registration
+        router.push("/login"); // Redirect to login page after successful registration
       }
     } catch (error) {
       showAlert("Error", "" + error, "error");

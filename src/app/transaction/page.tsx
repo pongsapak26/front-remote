@@ -1,7 +1,6 @@
 "use client";
-
 import { aosall } from "@/lib/aos";
-import { geTransactionId } from "@/lib/api";
+import { getTransactionId } from "@/lib/api";
 import { CalendarArrowUp } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,7 +18,7 @@ export default function Page() {
   useEffect(() => {
     const fetchData = async () => {
       // Simulate an API call
-      const response = await geTransactionId();
+      const response = await getTransactionId();
       if (response.status === 400) {
         router.push("/profile");
         return;
