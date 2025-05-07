@@ -3,6 +3,7 @@ import { ResEaKey } from "@/components/EakeyCard";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { removeUser } from "./func";
+import { showAlert } from "./sweetAlert";
 interface LoginResponse {
   data: {
     token: string;
@@ -30,6 +31,9 @@ export const login = async (
   setloading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   try {
+    if(email == '' || password == ''){
+      throw new Error("กรอกข้อมูลไม่ครบ");
+    }
     setloading(true);
     const response: LoginResponse = await axios.post(`/api/user/login`, {
       email,
@@ -46,7 +50,7 @@ export const login = async (
     }
   } catch (error) {
     console.log(error);
-    throw new Error("Login failed" + (error as Error).message);
+    throw new Error((error as Error).message);
   } finally {
     setloading(false); // หยุดโหลด
   }
@@ -59,12 +63,16 @@ export const register = async (
   setloading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   try {
+    if(email == '' || password == '' || username){
+      throw new Error("กรอกข้อมูลไม่ครบ");
+    }
     setloading(true);
     const response: RegisterResponse = await axios.post(`/api/user/register`, {
       email,
       password,
       username,
     });
+
     if (response.data) {
       Cookies.set("token", response.data.token, { expires: 7 });
       Cookies.set("userId", response.data.user.id, { expires: 7 });
@@ -72,7 +80,7 @@ export const register = async (
       return true; // ส่งค่ากลับไปยัง component ที่เรียกใช้
     }
   } catch (error) {
-    throw new Error("Registration failed" + (error as Error).message);
+    throw new Error( (error as Error).message);
   } finally {
     setloading(false); // หยุดโหลด
   }
@@ -114,7 +122,7 @@ export const getUser = async () => {
 export const createEakey = async (type: string) => {
   try {
     const response = await axios.post(`/api/eakey/add`, {
-      eaName: `${type == 'sl' ? 'SL Guard' : 'RSI'}`,
+      eaName: `${type == "sl" ? "SL Guard" : "RSI"}`,
       type: type,
     });
 
@@ -180,16 +188,18 @@ export const imageToDiscord = async (
   username: string,
   product: string,
   userId: string,
-  couponId: string
+  couponId: string,
+  eatype: string
 ) => {
   try {
     const formData = new FormData();
     formData.append("file", image);
     formData.append("price", price);
     formData.append("username", username);
-    formData.append("product", product);
+    formData.append("product", "SKU " + eatype + " - " + product);
     formData.append("couponId", couponId);
     formData.append("userId", userId);
+    formData.append("description", eatype);
     const response = await axios.post(`/api/discord`, formData);
     return response.data;
   } catch (error) {
@@ -201,7 +211,7 @@ export const geTransactionId = async () => {
   try {
     const response = await axios.get(`/api/transaction`);
     console.log(response);
-    
+
     return response.data; // ส่งค่ากลับเป็นข้อมูล Eakey
   } catch (error) {
     throw new Error("Failed to get Eakey" + (error as Error).message);
@@ -235,4 +245,32 @@ export const allProduct = async () => {
     throw new Error("Failed to get Eakey" + (error as Error).message);
   } finally {
   }
-}
+};
+
+export const createAdminEakey = async (type: string, id:number) => {
+  try {
+    const response = await axios.post(`/api/admin/add/key`, {
+      eaName: `${type == "sl" ? "SL Guard" : "RSI"}`,
+      id:id,
+      type: type,
+    });
+    showAlert("สำเร็จ", `แอด Key สำเร็จ`, "success");
+    return response.data; // ส่งค่ากลับเป็นข้อมูล Eakey
+  } catch (error) {
+    showAlert("ผิดพลาด", (error as Error).message || "โค้ดไม่ถูกต้อง", "error");
+    throw new Error("Failed to create Eakey" + (error as Error).message);
+  }
+};
+export const createAdminEaDay = async (type: string, id:number) => {
+  try {
+    const response = await axios.post(`/api/admin/add/day`, {
+      id:id,
+      type: type,
+    });
+    showAlert("สำเร็จ", `แอด Day สำเร็จ`, "success");
+    return response.data; // ส่งค่ากลับเป็นข้อมูล Eakey
+  } catch (error) {
+    showAlert("ผิดพลาด", (error as Error).message || "โค้ดไม่ถูกต้อง", "error");
+    throw new Error("Failed to create Eakey" + (error as Error).message);
+  }
+};

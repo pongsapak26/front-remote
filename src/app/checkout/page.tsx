@@ -9,12 +9,12 @@ import { useEffect, useState } from "react";
 
 export default function Page() {
   const router = useRouter();
-  const { user, cart } = useUserContext();
+  const { user, cart, eatype } = useUserContext();
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [couponCode, setCouponCode] = useState(""); // ✅ ใส่ code
-  const [couponCodeId, setCouponCodId] = useState(""); // ✅ ใส่ code
+  const [couponCodeId, setCouponCodId] = useState("0"); // ✅ ใส่ code
   const [discountedPrice, setDiscountedPrice] = useState(cart.price); // ✅ ราคาหลังลด
 
   useEffect(() => {
@@ -44,6 +44,7 @@ export default function Page() {
       setCouponCodId(data.id);
       showAlert("สำเร็จ", `ใช้โค้ดสำเร็จ ลดราคาแล้ว`, "success");
     } catch (error: any) {
+      setCouponCodId("0")
       showAlert("ผิดพลาด", error.message || "โค้ดไม่ถูกต้อง", "error");
     }
   };
@@ -69,7 +70,8 @@ export default function Page() {
         user.username,
         cart.product,
         user.id,
-        couponCodeId
+        couponCodeId,
+        eatype
       );
       console.log(response);
       showAlert("Success", "Upload successful!", "success");
@@ -99,6 +101,10 @@ export default function Page() {
             <img
               src={`/images/thaiQR_logo.jpg`}
               className="w-72 h-auto mx-auto mb-1"
+            />
+            <img
+              src={`/images/promptPay_logo.jpg`}
+              className="w-32 h-auto mx-auto mb-1"
             />
             <img
               src={`https://promptpay.io/1103000131521/${discountedPrice}`}

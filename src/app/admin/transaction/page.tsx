@@ -1,0 +1,75 @@
+// /app/admin/products/page.tsx
+"use client";
+
+import { useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
+import { createAdminEaDay, createAdminEakey } from "@/lib/api";
+
+type Transaction = {
+  price: number;
+  product: string;
+  status: string;
+  description:string;
+  user: {
+    username: string;
+    id: number;
+  };
+};
+
+export default function ProductPage() {
+  const [transaction, settransaction] = useState<Transaction[]>([]);
+  useEffect(() => {
+    fetch("/api/admin/transaction")
+      .then((res) => res.json())
+      .then((data) => settransaction(data));
+  }, []);
+
+  const columns = [
+    { name: "ID ลูกค้า", selector: (row: Transaction) => row.user.id },
+    { name: "ชื่อลูกค้า", selector: (row: Transaction) => row.user.username },
+    { name: "สินค้าที่ซื้อ", selector: (row: Transaction) => row.product },
+    { name: "Type", selector: (row: Transaction) => row.description },
+    { name: "ราคา", selector: (row: Transaction) => row.price },
+    {
+      name: "จัดการ",
+      cell: (row: Transaction) => (
+        <div className="space-x-2">
+          <button
+            className="p-2 rounded-lg bg-yellow-500 hover:bg-yellow-600 text-white transition-colors"
+            onClick={() => {
+              createAdminEakey(row.description,Number(row.user.id));
+            }}
+          >
+            Add Key
+          </button>
+          <button
+            className="p-2 rounded-lg bg-yellow-500 hover:bg-yellow-600 text-white transition-colors"
+            onClick={() => {
+              createAdminEaDay(row.description,Number(row.user.id));
+            }}
+          >
+            Add Day
+          </button>
+          <button
+            className={`text-white p-2 rounded-lg transition-colors  ${
+              row.status != "padding"
+                ? "bg-green-500 hover:bg-green-700"
+                : "bg-red-500 hover:bg-red-700 "
+            }`}
+          >
+            {row.status != "padding" ? "Approve" : "Reject"}
+          </button>
+        </div>
+      ),
+    },
+  ];
+
+  return (
+    <div>
+      <div className="flex justify-between mb-4">
+        <h1 className="text-xl font-bold">จัดการสินค้า EA</h1>
+      </div>
+      <DataTable columns={columns} data={transaction} pagination />
+    </div>
+  );
+}

@@ -36,7 +36,7 @@ const Login = () => {
         router.push("/profile"); // Redirect to profile page after successful login
       }
     } catch (error) {
-      showAlert("Error", "Login failed" + error, "error");
+      showAlert("Error", "" + error, "error");
     }
   };
 
@@ -58,6 +58,7 @@ const Login = () => {
           </div>
           <div className="mb-1">
             <Input
+            required={true}
               type="email"
               name="email"
               placeholder="Email"
@@ -67,6 +68,7 @@ const Login = () => {
           </div>
           <div className="mb-1 relative">
             <Input
+            required={true}
               type={showPassword ? "text" : "password"} // เปลี่ยน type ระหว่าง text และ password
               name="password"
               placeholder="Password"
