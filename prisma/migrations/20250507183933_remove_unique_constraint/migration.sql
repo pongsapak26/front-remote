@@ -1,18 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `couponusage` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropForeignKey
-ALTER TABLE `couponusage` DROP FOREIGN KEY `CouponUsage_couponId_fkey`;
-
--- DropForeignKey
-ALTER TABLE `couponusage` DROP FOREIGN KEY `CouponUsage_userId_fkey`;
-
--- DropTable
-DROP TABLE `couponusage`;
-
 -- CreateTable
 CREATE TABLE `CouponUse` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
