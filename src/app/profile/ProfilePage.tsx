@@ -23,6 +23,7 @@ const ProfilePage = () => {
         seteakey(res.eakeys); // Set eakey data to state
       } catch (err) {
         console.log(err);
+        router.push('/login')
       }
     };
     fetchEakey();

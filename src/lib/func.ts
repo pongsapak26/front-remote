@@ -9,7 +9,6 @@ export function removeUser() {
   Cookies.remove("token"); // Remove token from cookies
   Cookies.remove("username"); // Remove token from cookies
   Cookies.remove("userId"); // Remove token from cookies
-  window.location.href = "/login";
 }
 
 

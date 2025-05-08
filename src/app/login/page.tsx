@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { aosall } from "@/lib/aos";
 import { useUserContext } from "@/context/UserContext";
 import { Eye, EyeOff } from "lucide-react";
+import { removeUser } from "@/lib/func";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,6 +23,8 @@ const Login = () => {
   useEffect(() => {
     if (user.id !== "") {
       router.push("/profile"); // Redirect to profile page if user is already logged in
+    }else{
+      removeUser()
     }
   }, [user, router]);
   const handleLogin = async () => {
