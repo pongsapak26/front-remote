@@ -71,7 +71,7 @@ const EakeyCard = ({
   const handleDownload = (filename: string) => {
     // สำหรับไฟล์ที่อยู่ใน public folder
     window.location.href = `/files/${filename}.ex5`;
-  
+    
     // หรือถ้าไฟล์มาจาก API route
     // window.location.href = `/api/download/${filename}`;
   };
@@ -89,7 +89,7 @@ const EakeyCard = ({
       }
     );
   };
-
+  
   const afterExp = calculateDaysRemaining(exp);
   return (
     <div
@@ -205,8 +205,10 @@ const EakeyCard = ({
               <div
                 className="w-9 h-9 p-2 mx-auto shadow-lg rounded-full flex flex-col justify-center items-center cursor-pointer transition-colors hover:bg-slate-200 dark:bg-slate-600 hover:dark:bg-slate-700"
                 onClick={() => {
-                  seteatype(type)
-                  router.push(`/order`); // Redirect to order page
+                  if(type != ''){
+                    seteatype(type)
+                    router.push(`/order`); // Redirect to order page
+                  }
                   // Handle save logic here
                 }}
               >

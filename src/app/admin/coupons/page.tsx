@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component'
-import { Pencil, Trash2, Plus } from 'lucide-react'
+import { Pencil, Trash2, } from 'lucide-react'
 import CouponFormModal from './FormModal'
 
 type Coupon = {
@@ -61,8 +61,8 @@ export default function CouponPage() {
     <div className="p-4">
       <div className="flex justify-between mb-4">
         <h1 className="text-xl font-bold">จัดการคูปอง</h1>
-        <button onClick={() => { setSelected(null); setOpen(true) }}>
-          <Plus className="w-4 h-4 mr-2" /> เพิ่มคูปอง
+        <button className='btn-bggreen btn' onClick={() => { setSelected(null); setOpen(true) }}>
+          เพิ่มคูปอง
         </button>
       </div>
       <DataTable columns={columns} data={coupons} pagination />

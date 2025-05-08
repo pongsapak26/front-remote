@@ -54,7 +54,7 @@ export default function ProductPage() {
     <div>
       <div className="flex justify-between mb-4">
         <h1 className="text-xl font-bold">จัดการสินค้า EA</h1>
-        <button onClick={() => { setSelected(null); setOpen(true) }}>➕ เพิ่มสินค้า</button>
+        <button className='btn-bggreen btn' onClick={() => { setSelected(null); setOpen(true) }}>เพิ่มสินค้า</button>
       </div>
       <DataTable columns={columns} data={products} pagination />
       <FormModal

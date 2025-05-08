@@ -38,10 +38,6 @@ const ProfilePage = () => {
         seteatype(type)
         router.push('/product')
       }
-      if (response.message === "EA Add successfully") {
-        showAlert("Success", response.message, "success");
-        setproduct(!product);
-      }
     } catch (error) {
       console.error("Error creating EA key:", error);
     }

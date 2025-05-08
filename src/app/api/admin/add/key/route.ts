@@ -27,6 +27,7 @@ export async function POST(req: NextRequest) {
 
     const checkMainkey = await prisma.eakey.findFirst({
       where: {
+        userId: Number(id),
         mainkey:"main"
       }
     })

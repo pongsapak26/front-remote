@@ -25,33 +25,34 @@ export default function ProductPage() {
   }, []);
 
   const columns = [
-    { name: "ID ลูกค้า", selector: (row: Transaction) => row.user.id },
-    { name: "ชื่อลูกค้า", selector: (row: Transaction) => row.user.username },
-    { name: "สินค้าที่ซื้อ", selector: (row: Transaction) => row.product },
-    { name: "Type", selector: (row: Transaction) => row.description },
-    { name: "ราคา", selector: (row: Transaction) => row.price },
+    { name: "ID ลูกค้า",  width:"10%",selector: (row: Transaction) => row.user.id },
+    { name: "ชื่อลูกค้า",  width:"20%",selector: (row: Transaction) => row.user.username },
+    { name: "สินค้าที่ซื้อ",  width:"10%",selector: (row: Transaction) => row.product },
+    { name: "Type", width:"10%", selector: (row: Transaction) => row.description },
+    { name: "ราคา", width:"20%", selector: (row: Transaction) => row.price },
     {
       name: "จัดการ",
+      minWidth: '30%', 
       cell: (row: Transaction) => (
         <div className="space-x-2">
           <button
-            className="p-2 rounded-lg bg-yellow-500 hover:bg-yellow-600 text-white transition-colors"
+            className="p-1 rounded-lg bg-yellow-500 hover:bg-yellow-600 text-white transition-colors"
             onClick={() => {
               createAdminEakey(row.description,Number(row.user.id));
             }}
           >
-            Add Key
+            + Key
           </button>
           <button
-            className="p-2 rounded-lg bg-yellow-500 hover:bg-yellow-600 text-white transition-colors"
+            className="p-1 rounded-lg bg-yellow-500 hover:bg-yellow-600 text-white transition-colors"
             onClick={() => {
               createAdminEaDay(row.description,Number(row.user.id));
             }}
           >
-            Add Day
+            + Day
           </button>
           <button
-            className={`text-white p-2 rounded-lg transition-colors  ${
+            className={`text-white p-1 rounded-lg transition-colors  ${
               row.status != "padding"
                 ? "bg-green-500 hover:bg-green-700"
                 : "bg-red-500 hover:bg-red-700 "

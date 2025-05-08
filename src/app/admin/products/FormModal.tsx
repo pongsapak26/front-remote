@@ -15,16 +15,6 @@ export default function FormModal({
   initialData?: any;
   onSuccess: (data: any) => void;
 }) {
-  const [form, setForm] = useState(
-    initialData ?? {
-      eaName: "",
-      priceStart: 0,
-      priceSub: 0,
-      priceKey: 0,
-      sku: "",
-    }
-  );
-
   const handleSubmit = async () => {
     const method = form.id ? "PUT" : "POST";
     const res = await fetch("/api/admin/products", {
@@ -34,6 +24,7 @@ export default function FormModal({
     const data = await res.json();
     onSuccess(data);
   };
+  const [form, setForm] = useState(initialData);
 
   if (!open) return null;
   return (
@@ -44,12 +35,14 @@ export default function FormModal({
         </h2>
         {["eaName", "priceStart", "priceSub", "priceKey", "sku"].map((key) => (
           <div key={key}>
-            <label className="" htmlFor={key}>{key}</label>
+            <label className="" htmlFor={key}>
+              {key}
+            </label>
             <input
               key={key}
               className="w-full border rounded p-2"
               placeholder={key}
-              value={form[key]}
+              value={(form as any)[key]}
               type={key.includes("price") ? "number" : "text"}
               onChange={(e) =>
                 setForm({

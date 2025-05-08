@@ -51,10 +51,13 @@ body {
   @apply bg-white dark:bg-gray-800 rounded-md;
 }
 .btn-bggreen{
-  @apply bg-green-600 hover:bg-green-700;
+  @apply bg-green-600 hover:bg-green-700 transition-all;
 }
 .btn-bgred{
-  @apply bg-red-600 hover:bg-red-700;
+  @apply bg-red-600 hover:bg-red-700 transition-all;
+}
+.btn{
+  @apply p-2 rounded-lg text-white;
 }
 
 @keyframes slide-in {
