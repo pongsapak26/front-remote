@@ -3,6 +3,7 @@ import { ResEaKey } from "@/components/EakeyCard";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { showAlert } from "./sweetAlert";
+import { removeUser } from "./func";
 interface LoginResponse {
   data: {
     token: string;
@@ -164,8 +165,11 @@ export const logout = async () => {
 export const getEakey = async () => {
   try {
     const response = await axios.get(`/api/eakey`);
+    console.log(response);
+    
     return response.data; // ส่งค่ากลับเป็นข้อมูล Eakey
   } catch (error) {
+    removeUser()
     throw new Error("Failed to get Eakey" + (error as Error).message);
   }
 };
@@ -266,6 +270,19 @@ export const createAdminEaDay = async (type: string, id:number) => {
       type: type,
     });
     showAlert("สำเร็จ", `แอด Day สำเร็จ`, "success");
+    return response.data; // ส่งค่ากลับเป็นข้อมูล Eakey
+  } catch (error) {
+    showAlert("ผิดพลาด", (error as Error).message || "โค้ดไม่ถูกต้อง", "error");
+    throw new Error("Failed to create Eakey" + (error as Error).message);
+  }
+};
+export const createAdminApprove = async (id:number) => {
+  try {
+    const response = await axios.post(`/api/admin/transaction`, {
+      id:id,
+    });
+    showAlert("สำเร็จ", `ส่งเมลสำเร็จ`, "success");
+    window.location.reload();
     return response.data; // ส่งค่ากลับเป็นข้อมูล Eakey
   } catch (error) {
     showAlert("ผิดพลาด", (error as Error).message || "โค้ดไม่ถูกต้อง", "error");

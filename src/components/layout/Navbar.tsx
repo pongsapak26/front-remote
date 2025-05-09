@@ -42,6 +42,7 @@ const Navbar = ({
             </Link>
           </div>
           <UserMenu />
+          
         </div>
       </nav>
       {children}

@@ -3,7 +3,7 @@
 
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { Home, Package, Ticket, Settings, BadgeDollarSign } from 'lucide-react'
+import { Home, Package, Ticket, Settings, BadgeDollarSign, Logs, TicketCheck, UserRoundCog } from 'lucide-react'
 
 export default function Aside() {
   const pathname = usePathname()
@@ -13,12 +13,14 @@ export default function Aside() {
     { name: 'จัดการสินค้า', href: '/admin/products', icon: Package },
     { name: 'จัดการออเดอร์', href: '/admin/transaction', icon: BadgeDollarSign },
     { name: 'จัดการคูปอง', href: '/admin/coupons', icon: Ticket },
-    { name: 'ประวัติการใช้คูปอง', href: '/admin/coupon-usage', icon: Ticket },
+    { name: 'ประวัติการใช้คูปอง', href: '/admin/coupon-usage', icon: TicketCheck },
+    { name: 'User List', href: '/admin/userlist', icon: UserRoundCog },
+    { name: 'Admin Log', href: '/admin/log', icon: Logs },
     { name: 'ตั้งค่า', href: '/admin/settings', icon: Settings },
   ]
 
   return (
-    <aside className="w-64 h-screen bg-gray-900 text-white fixed left-0 flex flex-col">
+    <aside className="w-64 h-screen bg-gray-900 text-white fixed left-0 flex flex-col z-50">
       <div className="p-4 text-xl font-bold border-b border-gray-700">
         🧠 My Admin
       </div>

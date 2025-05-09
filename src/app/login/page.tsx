@@ -98,7 +98,7 @@ const Login = () => {
           />
           <p className="text-center text-sm dark:text-gray-100 text-gray-900 mt-4">
             <Link
-              href="/register"
+              href="/forgetpassword"
               id="showRegister"
               className="dark:text-gray-400 text-blue-900 hover:underline pl-1"
             >

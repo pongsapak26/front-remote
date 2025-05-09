@@ -13,21 +13,20 @@ export async function POST(req: NextRequest) {
     if (!decoded || !decoded.id) {
       return NextResponse.json({ message: 'Unauthorized: Invalid token' }, { status: 401 });
     }
-    const user = await prisma.user.findUnique({
-      where: { id: Number(decoded.id) },
-    });
-    
-    if (!user) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
-    }
 
-    if (user.keylimit <= 0) {
+    const checkMainkey = await prisma.eakey.findFirst({
+      where: {
+        userId: Number(decoded.id),
+        mainkey:"main"
+      }
+    })
+
+    if(checkMainkey != null){
       return NextResponse.json(
-        { message: "Key limit reached" },
+        { message: "มี EA แล้ว" },
         { status: 201 }
       );
     }
-
     const eaapiKey = generateRandomText(10);
 
     const data = await prisma.eakey.create({
@@ -44,13 +43,6 @@ export async function POST(req: NextRequest) {
     });
     console.log(data);
     
-    await prisma.user.update({
-      where: { id: Number(decoded.id) },
-      data: {
-        keylimit: user.keylimit - 1,
-      },
-    });
-
     return NextResponse.json(
       { message: "EA Add successfully" },
       { status: 201 }

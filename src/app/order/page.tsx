@@ -1,9 +1,10 @@
 "use client";
+import TopRightAlert from "@/components/TopRightAlert";
 import { useUserContext } from "@/context/UserContext";
 import { aosall } from "@/lib/aos";
 import { getUserProfile } from "@/lib/api";
 import axios from "axios";
-import { CalendarArrowUp } from "lucide-react";
+import { CalendarArrowUp, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -21,13 +22,16 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const { eatype, setCart } = useUserContext();
   const [product, setproduct] = useState<Product[]>([]);
+  const [showalert, setshowalert] = useState(false);
+  
   const handleBuy = ({ price, name }: { price: number; name: string }) => {
     // Handle the buy action here
-    setCart({
-      price: price,
-      product: name,
-    });
-    router.push("/checkout");
+    setCart(prev => [...prev, { price, product: name }]);
+    setshowalert(true);
+    setTimeout(() => {
+      setshowalert(false);
+    }, 2000);
+    // router.push("/checkout");
   };
 
   useEffect(() => {
@@ -64,13 +68,14 @@ export default function Page() {
       </div>
     );
   }
-
+  
   return (
     <div className="h-full flex align-middle justify-center px-4 md:px-0">
+      {showalert && <TopRightAlert message="Add To Cart" icon={<Check />} />}
       <div className="container m-auto py-8">
         <div {...aosall} className="flex justify-start gap-2 items-center mb-8">
           <CalendarArrowUp className="w-10 h-10" />
-          <h1 className="text-3xl font-bold text-start">ต่ออายุการใช้งาน</h1>
+          <h1 className="text-3xl font-bold text-start">ต่ออายุการใช้งาน {product.length != 0 ? product[0].eaName : ""}  </h1>
         </div>
         <div
           {...aosall}
@@ -83,7 +88,7 @@ export default function Page() {
                   className="shadow-lg p-6 text-center dark:bg-slate-900"
                 >
                   <div className="flex justify-between">
-                    <p className="mb-4 text-slate-400">ระยะเวลา</p>
+                    <p className="mb-4 text-slate-400">เพิ่มระยะเวลา</p>
                     <p className="mb-4 ">30 Day</p>
                   </div>
                   <div className="flex justify-between">
@@ -97,7 +102,7 @@ export default function Page() {
                       onClick={() =>
                         handleBuy({
                           price: product.priceSub,
-                          name: "ระยะเวลา 30 วัน",
+                          name: "เพิ่มระยะเวลา 30 วัน",
                         })
                       }
                       className="p-4 transition-all btn-bggreen text-white py-2 cursor-pointer"
@@ -115,7 +120,7 @@ export default function Page() {
                   className="shadow-lg p-6 text-center dark:bg-slate-900"
                 >
                   <div className="flex justify-between">
-                    <p className="mb-4 text-slate-400">EA Key</p>
+                    <p className="mb-4 text-slate-400">เพิ่ม EA Key</p>
                     <p className="mb-4 ">1 Key</p>
                   </div>
                   <div className="flex justify-between">

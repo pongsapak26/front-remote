@@ -13,7 +13,9 @@ export async function middleware(req: NextRequest) {
     pathname.startsWith("/login") ||
     pathname.startsWith("/product") ||
     pathname.startsWith("/order") ||
+    pathname.startsWith("/resetpassword") ||
     pathname === "/api/forex" ||
+    pathname === "/forgetpassword" ||
     pathname === "/terms-and-conditions" ||
     pathname === "/privacy-policy"
   ) {

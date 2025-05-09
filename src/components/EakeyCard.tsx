@@ -33,7 +33,7 @@ export type ResEaKey = {
   type: string;
 };
 // ฟังก์ชันสำหรับคำนวณจำนวนวันที่เหลือ
-const calculateDaysRemaining = (exp: Date | string): string => {
+export const calculateDaysRemaining = (exp: Date | string): string => {
   const today = new Date();
   const expirationDate = new Date(exp); // แปลง exp ให้เป็น Date object
   const diffTime = expirationDate.getTime() - today.getTime(); // คำนวณความต่างของเวลา (มิลลิวินาที)

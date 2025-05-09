@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { authenticateRequest } from "@/lib/auth";
+import { approveTransactionAndNotifyUser } from "@/lib/transaction";
 
 const prisma = new PrismaClient();
 
@@ -32,5 +33,16 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(transactions);
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });
+  }
+}
+
+export async function POST(req: NextRequest) {
+  const { id } = await req.json()
+  try {
+    const updated = await approveTransactionAndNotifyUser(id)
+    return NextResponse.json({ status: true, transaction: updated })
+  } catch (err) {
+    console.error(err)
+    return NextResponse.json({ status: false, message: 'Approve failed' }, { status: 500 })
   }
 }

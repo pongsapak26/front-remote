@@ -21,20 +21,23 @@ const ProfilePage = () => {
       const res = await getEakey(); 
       try {
         seteakey(res.eakeys); // Set eakey data to state
+        setLoading(true); // Set loading to true while fetching user profile
       } catch (err) {
         console.log(err);
         router.push('/login')
       }
     };
     fetchEakey();
-    setLoading(true); // Set loading to true while fetching user profile
   }, [product]);
 
   const handlerCreateEakey = async (type: string) => {
     try {
       const response = await createEakey(type);
-      if (response.message === "Key limit reached") {
+      if (response.message === "มี EA แล้ว") {
         showAlert("Error", response.message, "error");
+        seteatype(type)
+        router.push('/order')
+      } else{
         seteatype(type)
         router.push('/product')
       }

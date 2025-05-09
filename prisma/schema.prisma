@@ -144,3 +144,22 @@ model CouponUse {
   coupon    Coupon    @relation(fields: [couponId], references: [id])
   
 }
+
+model Log {
+  id        Int      @id @default(autoincrement())
+  user      String   // เก็บชื่อผู้ใช้งาน เช่น email หรือ username
+  action    String   // เช่น CREATE_POST, DELETE_USER
+  detail    String?  // รายละเอียดเพิ่มเติม
+  createdAt DateTime @default(now())
+
+  @@map("log")
+}
+
+model PasswordReset {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  token     String   @unique
+  expiresAt DateTime
+
+  @@map("passwordreset")
+}

@@ -9,6 +9,7 @@ import {
   LogOut,
   Moon,
   ReceiptText,
+  ShoppingCart,
   Sun,
   User,
   UserPen,
@@ -17,7 +18,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 export default function UserMenu() {
-  const { user } = useUserContext();
+  const { user, cart } = useUserContext();
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null); // ใช้สำหรับอ้างอิง UserMenu
@@ -33,6 +34,7 @@ export default function UserMenu() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+    console.log(username);
   }, []);
 
   const handleLogout = async () => {
@@ -62,17 +64,28 @@ export default function UserMenu() {
   }, []);
 
   return (
-    <div className="relative" ref={menuRef}>
-      {/* User Icon Button */}
+    <div className="relative flex items-center" ref={menuRef}>
+      <div className="mr-2 relative">
+        {cart.length > 0 ? (
+          <div className="absolute bg-red-500 p-1 rounded-full z-50 w-5 -top-2 -right-2 h-5 text-xs text-center text-white items-center flex justify-center">
+            {cart.length}
+          </div>
+        ) : (
+          ""
+        )}
+        <Link href="/cart">
+          <ShoppingCart className="w-6 h-6 my-auto" />
+        </Link>
+      </div>
       <button
         onClick={() => setOpen(!open)}
         className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition flex "
       >
-        {(user.username || username) ?? (
+        {/* {(user.username || username) ?? (
           <div className="mr-2">
             <span>{user.username || username}</span>
           </div>
-        )}
+        )} */}
         <User className="w-6 h-6" />
       </button>
       {/* Modal Menu */}

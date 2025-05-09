@@ -10,11 +10,9 @@ interface UserContextType {
   cart: {
     price: number;
     product: string;
-  };
-  eatype:string;
-  seteatype: React.Dispatch<
-    React.SetStateAction<string>
-  >;
+  }[];
+  eatype: string;
+  seteatype: React.Dispatch<React.SetStateAction<string>>;
   setUser: React.Dispatch<
     React.SetStateAction<{
       id: string;
@@ -22,17 +20,27 @@ interface UserContextType {
     }>
   >;
   setCart: React.Dispatch<
-    React.SetStateAction<{
-      price: number;
-      product: string;
-    }>
+    React.SetStateAction<
+      {
+        price: number;
+        product: string;
+      }[]
+    >
+  >;
+  checkout: {
+    price: number;
+    product: string;
+  };
+  setcheckout: React.Dispatch<
+    React.SetStateAction<{ price: number; product: string }>
   >;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [cart, setCart] = useState({
+  const [cart, setCart] = useState<{ price: number; product: string }[]>([]);
+  const [checkout, setcheckout] = useState({
     price: 0,
     product: "",
   });
@@ -42,7 +50,18 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     username: Cookies.get("username") || "",
   });
   return (
-    <UserContext.Provider value={{ cart, setCart, setUser, user, eatype, seteatype }}>
+    <UserContext.Provider
+      value={{
+        cart,
+        setCart,
+        setUser,
+        user,
+        eatype,
+        seteatype,
+        setcheckout,
+        checkout,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

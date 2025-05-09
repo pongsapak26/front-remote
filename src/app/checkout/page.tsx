@@ -9,21 +9,21 @@ import { useEffect, useState } from "react";
 
 export default function Page() {
   const router = useRouter();
-  const { user, cart, eatype } = useUserContext();
+  const { user, checkout, eatype } = useUserContext();
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [couponCode, setCouponCode] = useState(""); // ✅ ใส่ code
   const [couponCodeId, setCouponCodId] = useState("0"); // ✅ ใส่ code
-  const [discountedPrice, setDiscountedPrice] = useState(cart.price); // ✅ ราคาหลังลด
+  const [discountedPrice, setDiscountedPrice] = useState(checkout.price); // ✅ ราคาหลังลด
 
   useEffect(() => {
-    if (cart.price === 0) {
+    if (checkout.price === 0) {
       router.push("/profile");
     } else {
       setLoading(true);
     }
-  }, [cart.price, router]);
+  }, [checkout.price, router]);
 
   const handleCoupon = async () => {
     try {
@@ -38,7 +38,7 @@ export default function Page() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Invalid code");
 
-      const newPrice = cart.price - data.discount;
+      const newPrice = checkout.price - data.discount;
 
       setDiscountedPrice(Math.max(0, Math.round(newPrice)));
       setCouponCodId(data.id);
@@ -72,7 +72,7 @@ export default function Page() {
         selectedFile || file,
         discountedPrice.toString(),
         user.username,
-        cart.product,
+        checkout.product,
         user.id,
         couponCodeId,
         eatype
@@ -117,9 +117,9 @@ export default function Page() {
               />
             </div>
             <div className="mt-5 space-y-1 text-gray-400">
-              <p>คำสั่งซื้อ: {cart.product}</p>
-              <p>ราคาเต็ม: {cart.price} Baht</p>
-              {discountedPrice !== cart.price && (
+              <p>คำสั่งซื้อ: {checkout.product}</p>
+              <p>ราคาเต็ม: {checkout.price} Baht</p>
+              {discountedPrice !== checkout.price && (
                 <p>
                   ราคาหลังใช้โค้ด:{" "}
                   <span className="text-green-500">{discountedPrice} Baht</span>

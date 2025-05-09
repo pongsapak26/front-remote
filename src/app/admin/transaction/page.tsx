@@ -3,9 +3,10 @@
 
 import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { createAdminEaDay, createAdminEakey } from "@/lib/api";
+import { createAdminApprove, createAdminEaDay, createAdminEakey } from "@/lib/api";
 
 type Transaction = {
+  id:number;
   price: number;
   product: string;
   status: string;
@@ -25,11 +26,11 @@ export default function ProductPage() {
   }, []);
 
   const columns = [
-    { name: "ID ลูกค้า",  width:"10%",selector: (row: Transaction) => row.user.id },
-    { name: "ชื่อลูกค้า",  width:"20%",selector: (row: Transaction) => row.user.username },
-    { name: "สินค้าที่ซื้อ",  width:"10%",selector: (row: Transaction) => row.product },
-    { name: "Type", width:"10%", selector: (row: Transaction) => row.description },
-    { name: "ราคา", width:"20%", selector: (row: Transaction) => row.price },
+    { name: "ID ลูกค้า",  width:"5%",selector: (row: Transaction) => row.user.id },
+    { name: "ชื่อลูกค้า",  width:"10%",selector: (row: Transaction) => row.user.username },
+    { name: "สินค้าที่ซื้อ",  width:"50%",selector: (row: Transaction) => row.product },
+    { name: "Type", width:"5%", selector: (row: Transaction) => row.description },
+    { name: "ราคา", width:"10%", selector: (row: Transaction) => row.price },
     {
       name: "จัดการ",
       minWidth: '30%', 
@@ -53,12 +54,15 @@ export default function ProductPage() {
           </button>
           <button
             className={`text-white p-1 rounded-lg transition-colors  ${
-              row.status != "padding"
+              row.status == "pending"
                 ? "bg-green-500 hover:bg-green-700"
                 : "bg-red-500 hover:bg-red-700 "
             }`}
+            onClick={() => {
+              createAdminApprove(row.id)
+            }}
           >
-            {row.status != "padding" ? "Approve" : "Reject"}
+            {row.status === "pending" ? "Approve" : "Reject"}
           </button>
         </div>
       ),

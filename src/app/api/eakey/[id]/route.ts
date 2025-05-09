@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { authenticateRequest } from "@/lib/auth";
+import { logAction } from "@/lib/logger";
 
 export async function GET(req: Request) {
   try {
@@ -83,7 +84,11 @@ export async function PUT(req: NextRequest, { params }: any) {
         updatedAt: new Date(), // Timestamp update
       },
     });
-
+    await logAction({
+      user: decoded.id.toString(),
+      action: 'UPDATE_EA',
+      detail: `UPDATE_EA ID: ${numericId}`,
+    });
     return NextResponse.json({
       message: "✅ EA updated successfully",
       data: eakey,
