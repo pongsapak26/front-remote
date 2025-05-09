@@ -30,6 +30,9 @@ jobs:
           echo "NEXT_PUBLIC_DISCORD=${{ secrets.NEXT_PUBLIC_DISCORD }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "EMAIL_USER=${{ secrets.EMAIL_USER }}" >> .env
+          echo "EMAIL_PASS=${{ secrets.EMAIL_PASS }}" >> .env
+          echo "NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}" >> .env
 
       - name: 🏗️ Build Next.js
         run: npm run build
