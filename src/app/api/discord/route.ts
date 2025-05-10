@@ -14,7 +14,6 @@ export async function POST(req: NextRequest) {
   if (!file) {
     return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
   }
-
   const { isAuthenticated, response, decoded } = await authenticateRequest(req);
   if (!isAuthenticated) return response;
   if (!decoded || !decoded.id) {
@@ -65,7 +64,6 @@ export async function POST(req: NextRequest) {
       })
     );
     discordForm.append("file", buffer, file.name); // หรือ 'image.jpg'
-
     // ส่งไปยัง Discord Webhook
     await axios.post(DISCORD_WEBHOOK_URL, discordForm, {
       headers: {

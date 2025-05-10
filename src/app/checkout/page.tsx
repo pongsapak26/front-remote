@@ -58,7 +58,7 @@ export default function Page() {
   };
 
   const handleUpload = async () => {
-    setLoading(true);
+    // setLoading(true);
     const file = new File(["mock content"], "mock-file.txt", {
       type: "text/plain",
     });
@@ -80,10 +80,10 @@ export default function Page() {
       console.log(response);
       showAlert("Success", "Upload successful!", "success");
       router.push("/profile");
-      setLoading(false);
+      // setLoading(false);
     } catch (error) {
       showAlert("Error", "Upload failed: " + error, "error");
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
